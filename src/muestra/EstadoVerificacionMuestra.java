@@ -1,5 +1,7 @@
 package muestra;
 
+import java.util.Optional;
+
 public class EstadoVerificacionMuestra {
 	
 	public void agregarOpinion(Muestra muestra, Opinion opinion) {
@@ -10,8 +12,9 @@ public class EstadoVerificacionMuestra {
 		}
 	}
 	
-	public void getResultadoActual(Muestra muestra) {
-		//return muestra.getOpinionMasPopular();
+	//NEEDS OPINION CLASS
+	public Optional<Opinion> getResultadoActual(Muestra muestra) {
+		return muestra.getOpinionMasPopular();
 	}
 	
 	public boolean esVerificada() {

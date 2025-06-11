@@ -16,9 +16,10 @@ public class EstadoMuestraVerificandose extends EstadoVerificacionMuestra{
 		}
 	}
 	
-	@Override
-	public void getResultadoActual(Muestra muestra) {
-		//return Nothing; //harcodeo que no tiene un resultado actual pq se esta votando 
-	}
+	//NEEDS OPINION CLASS
+	//@Override
+	//public Opinion getResultadoActual(Muestra muestra) {
+	//	return Nothing; //harcodeo que no tiene un resultado actual pq se esta votando 
+	//}
 
 }

@@ -3,6 +3,7 @@ package muestra;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import ubicacion.Ubicacion;
 import usuario.Usuario;
@@ -15,7 +16,6 @@ public class Muestra {
 	private EstadoVerificacionMuestra estado;
 	private List<Opinion> opiniones = new ArrayList<Opinion>();
 	
-	
 	//constructor
 	public Muestra(Usuario user, Date date, String image, Opinion opinion) {
 		this.usuario = user;
@@ -27,8 +27,10 @@ public class Muestra {
 	
 	//getters
 	
-	//NEEDS ENUM SPECIES
-	//public void getEspecieVinchuca() {this.getResultadoActual().getEspecie();}
+	//NEEDS ENUM TIPO OPINION
+	//public tipoOpinion getEspecieVinchuca() { 
+		//return this.getResultadoActual() //.getTipoOpinion(); //getEspecie();
+	//}
 	
 	public String getFotoMuestra() {
 		return this.imagenMuestra;
@@ -54,30 +56,34 @@ public class Muestra {
 		return this.opiniones;
 	}
 	
+	//NEEDS OPINION CLASS
 	public boolean coincidenExpertos() {
 		return true; //placeholder
+		//this.getOpinionesDeExpertos().stream().groupingBy(o -> o.getTipo()).stream().filter(g -> g.size()>1).get(0);
+		//creo??
 		//ver si hay alguna opinion repetida del mismo tipo significa que hay 2 expertos que coincides
 		//en la lista de expertos
 	}
 	
-	//public Opinion getOpinionQueCoicidenExpertos(){}
-	
 	//NEEDS OPINION CLASS
-	//public List<Opinion> getOpinionesDeExpertos(){
-		//return this.opiniones.stream().filter(p -> o.esExperto())
+	//public Opinion getOpinionQueCoicidenExpertos(){
+		//return 
+	//this.getOpinionesDeExpertos().stream().groupingBy(o -> o.getTipo()).stream().filter(g -> g.size()>1);
 	//}
 	
-	//NEEDS OPINION CLASS
-	//public Opinion getResultadoActual() {
-	//	return this.estado.getResultadoActual(this);
-	//}
+	@SuppressWarnings("unchecked")
+	public List<Opinion> getOpinionesDeExpertos(){
+		return (List<Opinion>) this.opiniones.stream().filter(p -> p.esExperto());
+	}
 	
-	//public Opinion getOpinionMasPopular() {
-		//return this.opiniones.stream().max((o1, o2) -> Integer.compare(o1.valor(), o2.valor()));
-	//}
+	public Optional<Opinion> getResultadoActual() {
+		return this.estado.getResultadoActual(this);
+	}
 	
-	//NEEDS OPINION CLASS
-	//public Opinion getEspecie() {return this.getResultadoActual.getEspecie;}
+	//may be none 
+	public Optional<Opinion> getOpinionMasPopular() {
+		return this.opiniones.stream().max((o1, o2) -> Integer.compare(o1.getValor(), o2.getValor()));
+	}
 	
 	
 	//setters
@@ -93,7 +99,6 @@ public class Muestra {
 	
 	public void addOpinion(Opinion opinion) {
 		this.opiniones.add(opinion);
-		//this.actualizarEstado();
 	}
 	
 	public boolean esVerificada(){
