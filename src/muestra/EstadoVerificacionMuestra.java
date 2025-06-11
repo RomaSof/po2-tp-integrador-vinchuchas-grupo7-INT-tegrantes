@@ -10,6 +10,10 @@ public class EstadoVerificacionMuestra {
 		}
 	}
 	
+	public void getResultadoActual(Muestra muestra) {
+		//return muestra.getOpinionMasPopular();
+	}
+	
 	public boolean esVerificada() {
 		return false;
 	}
