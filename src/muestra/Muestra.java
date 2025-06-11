@@ -54,6 +54,14 @@ public class Muestra {
 		return this.opiniones;
 	}
 	
+	public boolean coincidenExpertos() {
+		return true; //placeholder
+		//ver si hay alguna opinion repetida del mismo tipo significa que hay 2 expertos que coincides
+		//en la lista de expertos
+	}
+	
+	//public Opinion getOpinionQueCoicidenExpertos(){}
+	
 	//NEEDS OPINION CLASS
 	//public List<Opinion> getOpinionesDeExpertos(){
 		//return this.opiniones.stream().filter(p -> o.esExperto())
@@ -85,11 +93,7 @@ public class Muestra {
 	
 	public void addOpinion(Opinion opinion) {
 		this.opiniones.add(opinion);
-		this.actualizarEstado();
-	}
-	
-	private void actualizarEstado() {
-		this.estado.actualizarEstado(this);
+		//this.actualizarEstado();
 	}
 	
 	public boolean esVerificada(){
