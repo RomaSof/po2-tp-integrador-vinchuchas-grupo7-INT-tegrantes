@@ -13,7 +13,6 @@ import usuarioEstado.EstadoUsuarioVerificado;
 
 public class Usuario {
 
-<<<<<<< HEAD
 	private String nombre;
 	private List<Muestra> muestrasEnviadas = new ArrayList<Muestra>();
 	private List<Opinion> opiniones = new ArrayList<Opinion>();
@@ -55,7 +54,7 @@ public class Usuario {
 		this.estadoUsuario = nuevoEstado;
 	}
 	
-	public int getCantidadDeEnviosUltimos30Dias() {
+	/*public int getCantidadDeEnviosUltimos30Dias() {
         LocalDate hoy = LocalDate.now();
         LocalDate hace30Dias = hoy.minusDays(30);
 		int cantidadDeEnvios = 0;
@@ -66,7 +65,7 @@ public class Usuario {
             }
         }
         return cantidadDeEnvios;
-	}
+	}*/
 	
 	public int getCantidadDeRevisionesUltimos30Dias() {
         LocalDate hoy = LocalDate.now();
@@ -83,12 +82,5 @@ public class Usuario {
 
 	public String getNombre() {
 		return nombre;
-	}
-=======
-	public boolean esExperto() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
->>>>>>> refs/remotes/origin/main
+ }
 }

@@ -14,6 +14,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import muestra.Muestra;
+import muestra.Opinion;
+import muestra.TipoOpinion;
+
 class MuestraTestCase {
 	//SUT
 	public Muestra muestra;
