@@ -14,9 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import muestra.Muestra;
-import muestra.Opinion;
-import muestra.TipoOpinion;
+import opinion.*;
 
 class MuestraTestCase {
 	//SUT
@@ -71,21 +69,21 @@ class MuestraTestCase {
 		op5 = mock(Opinion.class);
 		op6 = mock(Opinion.class);
 		//getTipoOpinion
-		when(op.getTipoOpinion()).thenReturn(TipoOpinion.IMAGEN_POCO_CLARA);
-		when(op1.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCA_SORDIDA);
-		when(op2.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
-		when(op3.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
-		when(op4.getTipoOpinion()).thenReturn(TipoOpinion.VINCHUCA_SORDIDA);
-		when(op5.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
-		when(op6.getTipoOpinion()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
+		when(op.getTipoEspecie()).thenReturn(TipoOpinion.IMAGEN_POCO_CLARA);
+		when(op1.getTipoEspecie()).thenReturn(TipoOpinion.VINCHUCA_SORDIDA);
+		when(op2.getTipoEspecie()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
+		when(op3.getTipoEspecie()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
+		when(op4.getTipoEspecie()).thenReturn(TipoOpinion.VINCHUCA_SORDIDA);
+		when(op5.getTipoEspecie()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
+		when(op6.getTipoEspecie()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
 		//esExperto
-		when(op.esExperto()).thenReturn(false);
-		when(op1.esExperto()).thenReturn(false);
-		when(op2.esExperto()).thenReturn(false);
-		when(op3.esExperto()).thenReturn(false);
-		when(op4.esExperto()).thenReturn(true);
-		when(op5.esExperto()).thenReturn(true);
-		when(op6.esExperto()).thenReturn(true);
+		when(op.esOpinionVerificada()).thenReturn(false);
+		when(op1.esOpinionVerificada()).thenReturn(false);
+		when(op2.esOpinionVerificada()).thenReturn(false);
+		when(op3.esOpinionVerificada()).thenReturn(false);
+		when(op4.esOpinionVerificada()).thenReturn(true);
+		when(op5.esOpinionVerificada()).thenReturn(true);
+		when(op6.esOpinionVerificada()).thenReturn(true);
 		//getUsuario
 		when(op.getUsuario()).thenReturn(user);
 		when(op1.getUsuario()).thenReturn(normal1);

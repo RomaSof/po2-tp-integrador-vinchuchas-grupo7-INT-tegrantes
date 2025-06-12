@@ -1,13 +1,14 @@
 package opinion;
-import java.time.LocalDate;
+import java.util.Date;
 
 import muestra.Muestra;
 import usuario.Usuario;
 
+
 public class Opinion {
 	private Usuario usuario;
 	private TipoOpinion tipoOpinion;
-	private LocalDate fechaOpinion;
+	private Date fechaOpinion;
 	private Muestra muestra;
 	public Muestra getMuestra() {
 		return muestra;
@@ -21,13 +22,13 @@ public class Opinion {
 			this.usuario = usuario;
 			this.tipoOpinion = tipoOpinion;
 			this.muestra = muestra;
-			this.fechaOpinion = LocalDate.now();
+			this.fechaOpinion = new Date();
 			this.esOpinionVerificada = usuario.esExperto();
 	}
 	
 	public void enviarOpinion() {
-		if(!this.getMuestra().getOpiniones().contains(this.getUsuario())) {
-			this.getMuestra().addOpinionUsuario(this);
+		if(!this.getMuestra().getHistorialDeOpiniones().contains(this.getUsuario())) {
+			this.getMuestra().agregarOpinion(this);
 			this.getUsuario().addOpinion(this);
 		}
 	}
@@ -44,7 +45,7 @@ public class Opinion {
 		return this.esOpinionVerificada;
 	}
 	
-	public LocalDate getFechaOpinion() {
+	public Date getFechaOpinion() {
 		return fechaOpinion;
 	}
 }

@@ -1,5 +1,5 @@
 package muestra;
-
+import opinion.*;
 public class EstadoMuestraVerificandose extends EstadoVerificacionMuestra{
 	
 	@Override

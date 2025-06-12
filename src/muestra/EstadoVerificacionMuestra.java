@@ -1,5 +1,5 @@
 package muestra;
-
+import opinion.*;
 public class EstadoVerificacionMuestra {
 	
 	public void agregarOpinion(Muestra muestra, Opinion opinion) {

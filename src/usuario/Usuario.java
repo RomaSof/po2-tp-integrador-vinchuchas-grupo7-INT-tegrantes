@@ -1,12 +1,12 @@
 package usuario;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 import muestra.Muestra;
 import opinion.Opinion;
-import opinion.TipoOpinion;
 import usuarioEstado.EstadoUsuario;
 import usuarioEstado.EstadoUsuarioBasico;
 import usuarioEstado.EstadoUsuarioVerificado;
@@ -54,30 +54,41 @@ public class Usuario {
 		this.estadoUsuario = nuevoEstado;
 	}
 	
-	/*public int getCantidadDeEnviosUltimos30Dias() {
+	public int getCantidadDeEnviosUltimos30Dias() {
         LocalDate hoy = LocalDate.now();
         LocalDate hace30Dias = hoy.minusDays(30);
 		int cantidadDeEnvios = 0;
-        for (Muestra muestra : muestrasEnviadas) {
-            if (!muestra.getFechaCreacion().isBefore(hace30Dias) &&
-                !muestra.getFechaCreacion().isAfter(hoy)) {
+		for (Muestra muestra : muestrasEnviadas) {
+            // Convertir Date a LocalDate
+            LocalDate fechaCreacion = muestra.getFechaCreacion()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+            if (!fechaCreacion.isBefore(hace30Dias) && 
+                    !fechaCreacion.isAfter(hoy)) {
                 cantidadDeEnvios++;
             }
         }
         return cantidadDeEnvios;
-	}*/
+	}
 	
 	public int getCantidadDeRevisionesUltimos30Dias() {
         LocalDate hoy = LocalDate.now();
         LocalDate hace30Dias = hoy.minusDays(30);
-		int cantidadDeEnvios = 0;
+		int cantidadDeRevisiones = 0;
         for (Opinion opinion : opiniones) {
-            if (!opinion.getFechaOpinion().isBefore(hace30Dias) &&
-                !opinion.getFechaOpinion().isAfter(hoy)) {
-                cantidadDeEnvios+= 1;
-            }
+        	// Convertir Date a LocalDate
+            LocalDate fechaOpinion = opinion.getFechaOpinion()
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+                
+            if (!fechaOpinion.isBefore(hace30Dias) && 
+                    !fechaOpinion.isAfter(hoy)) {
+                    cantidadDeRevisiones++;
+                }
         }
-        return cantidadDeEnvios;
+        return cantidadDeRevisiones;
 	}
 
 	public String getNombre() {

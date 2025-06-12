@@ -1,13 +1,15 @@
 package muestra;
 
-import java.sql.Date;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import ubicacion.Ubicacion;
 import usuario.Usuario;
+import opinion.*;
 
 public class Muestra {
     private Usuario usuario;
@@ -24,6 +26,14 @@ public class Muestra {
 		//this.ubicacion = user.getUbicacion(); -> NEED "ORGANIZACION" package
 		this.imagenMuestra = image;
 		this.opiniones.add(opinion);
+		//Version que pense
+		/*
+		 * this.usuario = user;
+		 * this.fechaCreacion = new Date(); no pasamos fecha por parametro y se agrega en la fecha de la creacion de la muestra
+		 * this.imagenMuestra = image;
+		 * this.tipoOpinion = tipoOpinion; cuando se pregunte devuelve el tipo de opinion que agrego el usuario
+		 * this.opiniones.add(new Opinion(user , tipoOp, this))
+		 * */
 	}
 	
 	//getters
@@ -62,17 +72,17 @@ public class Muestra {
 	public List<Opinion> getOpinionesDeExpertos(){
 		return this.opiniones
 				.stream()
-				.filter(opinion -> opinion.esExperto())
+				.filter(opinion -> opinion.esOpinionVerificada())
 				.toList();
 	}
 	
 	public TipoOpinion getOpinionQueCoincidenExpertos(){
-		TipoOpinion opUser = this.opiniones.get(0).getTipoOpinion(); //base case?
+		TipoOpinion opUser = this.opiniones.get(0).getTipoEspecie(); //base case?
 		return 
 				this.getOpinionesDeExpertos()
 				.stream()
 				.collect(Collectors
-						.groupingBy(opinion->opinion.getTipoOpinion(), Collectors.counting()))
+						.groupingBy(opinion->opinion.getTipoEspecie(), Collectors.counting()))
 				.entrySet()
 				.stream()
 				.max(Map.Entry.comparingByValue())
@@ -82,12 +92,12 @@ public class Muestra {
 	}
 	 
 	public TipoOpinion getOpinionMasPopular() {
-		TipoOpinion opUser = this.opiniones.get(0).getTipoOpinion();
+		TipoOpinion opUser = this.opiniones.get(0).getTipoEspecie();
 		return 
 			this.opiniones
 				.stream()
 				.collect(Collectors
-						.groupingBy( opinion -> opinion.getTipoOpinion(), Collectors.counting() ) //groups by type of opinion
+						.groupingBy( opinion -> opinion.getTipoEspecie(), Collectors.counting() ) //groups by type of opinion
 						)
 				.entrySet() //set (Value, appearances)
 				.stream()
@@ -121,7 +131,7 @@ public class Muestra {
 		return
 				this.getOpinionesDeExpertos()
 				.stream()
-				.collect(Collectors.groupingBy(opinion -> opinion.getTipoOpinion())) //groups them by type (type, [opinions])
+				.collect(Collectors.groupingBy(opinion -> opinion.getTipoEspecie())) //groups them by type (type, [opinions])
 				.values() //collection of [opinion]
 				.stream()
 				.anyMatch(tipoOp -> tipoOp.size() > 1); //returns if at least 2 opinions have the same type 

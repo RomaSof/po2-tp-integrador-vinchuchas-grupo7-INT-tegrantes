@@ -1,9 +1,5 @@
 package muestra;
-
-import muestra.EstadoVerificacionMuestra;
-import muestra.Muestra;
-import muestra.Opinion;
-import muestra.TipoOpinion;
+import opinion.*;
 
 public class EstadoMuestraVerificada extends EstadoVerificacionMuestra{
 
