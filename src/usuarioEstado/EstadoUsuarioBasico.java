@@ -8,7 +8,7 @@ public class EstadoUsuarioBasico implements EstadoUsuario{
 		return false;
 	}
 
-	public void actualizarEstado(Usuario usuario, EstadoUsuario nuevoEstado) {
+	public void actualizarEstado(Usuario usuario) {
 		if(this.verificarCambioDeEstado(usuario)) {
 			usuario.setEstado(new EstadoUsuarioExperto());
 		}

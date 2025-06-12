@@ -4,7 +4,7 @@ import usuario.Usuario;
 
 public class EstadoUsuarioExperto implements EstadoUsuario{
 
-	public void actualizarEstado(Usuario usuario, EstadoUsuario nuevoEstado) {
+	public void actualizarEstado(Usuario usuario) {
 		if(this.verificarCambioDeEstado(usuario)) {
 			usuario.setEstado(new EstadoUsuarioBasico());
 		}

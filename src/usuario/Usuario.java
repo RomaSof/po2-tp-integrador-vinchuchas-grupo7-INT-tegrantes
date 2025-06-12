@@ -14,7 +14,7 @@ import usuarioEstado.EstadoUsuarioVerificado;
 public class Usuario {
 
 	private String nombre;
-	private List<Muestra> muestras = new ArrayList<Muestra>();
+	private List<Muestra> muestrasEnviadas = new ArrayList<Muestra>();
 	private List<Opinion> opiniones = new ArrayList<Opinion>();
 	private EstadoUsuario estadoUsuario;
 	
@@ -23,7 +23,7 @@ public class Usuario {
 	}
 	
 	public List<Muestra> getMuestras(){
-		return muestras;
+		return muestrasEnviadas;
 	}
 	
 	public void addOpinion(Opinion opinion) {
@@ -31,7 +31,7 @@ public class Usuario {
 	}
 	
 	public void addMuestra(Muestra muestra) {
-		muestras.add(muestra);
+		muestrasEnviadas.add(muestra);
 	}
 	
 	public Usuario(String nombre, boolean esVerificado) {	
@@ -42,6 +42,11 @@ public class Usuario {
 			this.estadoUsuario = new EstadoUsuarioBasico();
 		}
 	}
+	
+	public void actualizarEstado() {
+		this.estadoUsuario.actualizarEstado(this);
+	}
+	
 	public boolean esExperto() {
 		return estadoUsuario.esExperto();
 	}
@@ -53,7 +58,7 @@ public class Usuario {
         LocalDate hoy = LocalDate.now();
         LocalDate hace30Dias = hoy.minusDays(30);
 		int cantidadDeEnvios = 0;
-        for (Muestra muestra : muestras) {
+        for (Muestra muestra : muestrasEnviadas) {
             if (!muestra.getFechaCreacion().isBefore(hace30Dias) &&
                 !muestra.getFechaCreacion().isAfter(hoy)) {
                 cantidadDeEnvios++;

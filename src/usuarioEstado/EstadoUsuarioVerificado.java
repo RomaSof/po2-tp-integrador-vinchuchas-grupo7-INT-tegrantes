@@ -8,7 +8,7 @@ public class EstadoUsuarioVerificado implements EstadoUsuario{
 		return true;
 	}
 
-	public void actualizarEstado(Usuario usuario, EstadoUsuario nuevoEstado) {
+	public void actualizarEstado(Usuario usuario) {
 		
 	}
 
