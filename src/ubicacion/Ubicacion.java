@@ -2,6 +2,7 @@ package ubicacion;
 
 import java.util.ArrayList;
 import java.util.List;
+import muestra.Muestra;
 
 public class Ubicacion {
 	
@@ -21,7 +22,7 @@ public class Ubicacion {
 		return this.longitud;
 	}
 	
-	/**
+	/*
      * Calcula la distancia entre esta ubicación y otra, usando la fórmula de Haversine.
      * Esta fórmula estima la distancia en línea recta sobre la superficie de la Tierra,
      * considerando su curvatura.
@@ -62,4 +63,16 @@ public class Ubicacion {
 		}
 		return ubicacionesCercanas;
 	}
+    
+    public List<Muestra> listarMuestrasDentroDe(Muestra muestra, double unaDistancia, List<Muestra> muestrasAVerificar) {
+        
+        List<Muestra> muestrasCercanas = new ArrayList<Muestra>();
+        
+        for (Muestra m : muestrasAVerificar) {
+            if (m.getUbicacion().distanciaA(muestra.getUbicacion()) < unaDistancia) {
+                muestrasCercanas.add(m);
+            }
+        }
+        return muestrasCercanas;
+    }
 }
