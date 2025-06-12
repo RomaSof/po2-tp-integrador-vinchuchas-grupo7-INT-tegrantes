@@ -2,8 +2,11 @@ package muestra;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import ubicacion.Ubicacion;
 import usuario.Usuario;
@@ -26,26 +29,28 @@ public class Muestra {
 	}
 	
 	//getters
-	
-	//NEEDS ENUM TIPO OPINION
-	//public tipoOpinion getEspecieVinchuca() { 
-		//return this.getResultadoActual() //.getTipoOpinion(); //getEspecie();
-	//}
+	public String getEspecie() { 
+		return this.getResultadoActual().getEspecie();
+	}
 	
 	public String getFotoMuestra() {
 		return this.imagenMuestra;
-	}
-	
-	public Date getFechaCreacion() {
-		return this.fechaCreacion;
 	}
 	
 	public Ubicacion getUbicacion() {
 		return this.ubicacion;
 	}
 	
+	public Date getFechaCreacion() {
+		return this.fechaCreacion;
+	}
+	
 	public Usuario getRecolectorMuestra() {
 		return this.usuario;
+	}
+	
+	public TipoOpinion getResultadoActual() { 
+		return this.estado.getResultadoActual(this);
 	}
 	
 	public EstadoVerificacionMuestra getEstadoMuestra() {
@@ -56,13 +61,20 @@ public class Muestra {
 		return this.opiniones;
 	}
 	
-	//NEEDS OPINION CLASS
 	public boolean coincidenExpertos() {
-		return true; //placeholder
-		//this.getOpinionesDeExpertos().stream().groupingBy(o -> o.getTipo()).stream().filter(g -> g.size()>1).get(0);
-		//creo??
-		//ver si hay alguna opinion repetida del mismo tipo significa que hay 2 expertos que coincides
-		//en la lista de expertos
+		return
+				this.getOpinionesDeExpertos()
+				.stream()
+				.collect(Collectors.groupingBy(opinion -> opinion.getTipoOpinion())) //groups them by type (type, [opinions])
+				.values() //collection of [opinion]
+				.stream()
+				.anyMatch(tipoOp -> tipoOp.size() > 1); //returns if at least 2 opinions have the same type 
+				
+				/*.entrySet() //(type, appearances)
+				.stream()
+				.filter(tipoOp -> tipoOp.getValue().size() > 1) //filters the ones with no match
+				.toList()
+				.isEmpty(); //sees if none match -> no one agrees*/
 	}
 	
 	//NEEDS OPINION CLASS
@@ -71,18 +83,27 @@ public class Muestra {
 	//this.getOpinionesDeExpertos().stream().groupingBy(o -> o.getTipo()).stream().filter(g -> g.size()>1);
 	//}
 	
-	@SuppressWarnings("unchecked")
 	public List<Opinion> getOpinionesDeExpertos(){
-		return (List<Opinion>) this.opiniones.stream().filter(p -> p.esExperto());
+		return this.opiniones
+				.stream()
+				.filter(opinion -> opinion.esExperto())
+				.toList();
 	}
-	
-	public Optional<Opinion> getResultadoActual() {
-		return this.estado.getResultadoActual(this);
-	}
-	
-	//may be none 
-	public Optional<Opinion> getOpinionMasPopular() {
-		return this.opiniones.stream().max((o1, o2) -> Integer.compare(o1.getValor(), o2.getValor()));
+	 
+	public TipoOpinion getOpinionMasPopular() {
+		TipoOpinion opUser = this.opiniones.get(0).getTipoOpinion();
+		return 
+			this.opiniones
+				.stream()
+				.collect(Collectors
+						.groupingBy( opinion -> opinion.getTipoOpinion(), Collectors.counting() ) //groups by type of opinion
+						)
+				.entrySet() //set (Value, appearances)
+				.stream()
+				.max(Map.Entry.comparingByValue()) //finds the most voted one 
+				.map(Map.Entry::getKey) //returns the value 
+				.orElse(opUser); //if there're no votes returns the users vote (but it wont happen, there's always at least 1 vote)
+					
 	}
 	
 	
@@ -104,13 +125,5 @@ public class Muestra {
 	public boolean esVerificada(){
 		return estado.esVerificada();
 	}
-	
-	/*	
-	 
-	+ getFechaUltimaVotacion(): Date  -> para qué?
-	
-	--NEED LOCATIONS "UBICACIONES"
-	+ ubicacionesDeMuestrasCercanas(List<Muestra>, double): List<Muestra>
-	
-	*/
+
 }

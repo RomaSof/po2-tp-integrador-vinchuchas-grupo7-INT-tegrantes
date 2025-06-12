@@ -15,11 +15,10 @@ public class EstadoMuestraVerificandose extends EstadoVerificacionMuestra{
 			}
 		}
 	}
-	
-	//NEEDS OPINION CLASS
-	//@Override
-	//public Opinion getResultadoActual(Muestra muestra) {
-	//	return Nothing; //harcodeo que no tiene un resultado actual pq se esta votando 
-	//}
+
+	@Override
+	public TipoOpinion getResultadoActual(Muestra muestra) {
+		return new OpinionVacia().getTipoOpinion();  
+	}
 
 }

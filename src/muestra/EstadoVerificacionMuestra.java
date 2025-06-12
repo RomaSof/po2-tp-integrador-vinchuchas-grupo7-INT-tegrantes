@@ -13,7 +13,7 @@ public class EstadoVerificacionMuestra {
 	}
 	
 	//NEEDS OPINION CLASS
-	public Optional<Opinion> getResultadoActual(Muestra muestra) {
+	public TipoOpinion getResultadoActual(Muestra muestra) {
 		return muestra.getOpinionMasPopular();
 	}
 	
