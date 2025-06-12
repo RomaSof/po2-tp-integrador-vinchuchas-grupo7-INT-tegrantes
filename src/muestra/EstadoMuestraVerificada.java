@@ -8,7 +8,7 @@ public class EstadoMuestraVerificada extends EstadoVerificacionMuestra{
 	
 	@Override
 	public TipoOpinion getResultadoActual(Muestra muestra) {
-		return this.getOpinionQueCoicidenExpertos();
+		return muestra.getOpinionQueCoincidenExpertos();
 	}
 	
 	@Override

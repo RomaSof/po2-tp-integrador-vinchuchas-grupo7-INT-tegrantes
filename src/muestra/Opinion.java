@@ -26,6 +26,11 @@ public class Opinion {
 		// TODO Auto-generated method stub
 		return tipo.especie;
 	}
+
+	public Opinion getUsuario() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 	

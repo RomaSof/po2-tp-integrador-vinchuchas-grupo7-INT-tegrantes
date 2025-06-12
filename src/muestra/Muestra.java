@@ -2,10 +2,8 @@ package muestra;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import ubicacion.Ubicacion;
@@ -61,33 +59,26 @@ public class Muestra {
 		return this.opiniones;
 	}
 	
-	public boolean coincidenExpertos() {
-		return
-				this.getOpinionesDeExpertos()
-				.stream()
-				.collect(Collectors.groupingBy(opinion -> opinion.getTipoOpinion())) //groups them by type (type, [opinions])
-				.values() //collection of [opinion]
-				.stream()
-				.anyMatch(tipoOp -> tipoOp.size() > 1); //returns if at least 2 opinions have the same type 
-				
-				/*.entrySet() //(type, appearances)
-				.stream()
-				.filter(tipoOp -> tipoOp.getValue().size() > 1) //filters the ones with no match
-				.toList()
-				.isEmpty(); //sees if none match -> no one agrees*/
-	}
-	
-	//NEEDS OPINION CLASS
-	//public Opinion getOpinionQueCoicidenExpertos(){
-		//return 
-	//this.getOpinionesDeExpertos().stream().groupingBy(o -> o.getTipo()).stream().filter(g -> g.size()>1);
-	//}
-	
 	public List<Opinion> getOpinionesDeExpertos(){
 		return this.opiniones
 				.stream()
 				.filter(opinion -> opinion.esExperto())
 				.toList();
+	}
+	
+	public TipoOpinion getOpinionQueCoincidenExpertos(){
+		TipoOpinion opUser = this.opiniones.get(0).getTipoOpinion(); //base case?
+		return 
+				this.getOpinionesDeExpertos()
+				.stream()
+				.collect(Collectors
+						.groupingBy(opinion->opinion.getTipoOpinion(), Collectors.counting()))
+				.entrySet()
+				.stream()
+				.max(Map.Entry.comparingByValue())
+				.map(Map.Entry::getKey) //returns the value 
+				.orElse(opUser); //change?
+				
 	}
 	 
 	public TipoOpinion getOpinionMasPopular() {
@@ -124,6 +115,16 @@ public class Muestra {
 	
 	public boolean esVerificada(){
 		return estado.esVerificada();
+	}
+	
+	public boolean coincidenExpertos() {
+		return
+				this.getOpinionesDeExpertos()
+				.stream()
+				.collect(Collectors.groupingBy(opinion -> opinion.getTipoOpinion())) //groups them by type (type, [opinions])
+				.values() //collection of [opinion]
+				.stream()
+				.anyMatch(tipoOp -> tipoOp.size() > 1); //returns if at least 2 opinions have the same type 
 	}
 
 }
