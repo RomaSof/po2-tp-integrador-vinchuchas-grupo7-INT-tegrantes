@@ -1,20 +1,19 @@
 package muestra;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import usuario.Usuario;
 
 public class Opinion {
 	private TipoOpinion tipo;
-	private List<Usuario> votos = new ArrayList<Usuario>();
+	private Usuario usuario;
+	
+	//constructor
+	public Opinion(TipoOpinion tipo, Usuario usuario) {
+		this.tipo = tipo;
+		this.usuario = usuario;
+	}
 	
 	public TipoOpinion getTipoOpinion() {
 		return this.tipo;
-	}
-	
-	public int getValor() {
-		return votos.size();
 	}
 
 	public boolean esExperto() {
@@ -27,9 +26,9 @@ public class Opinion {
 		return tipo.especie;
 	}
 
-	public Opinion getUsuario() {
+	public Usuario getUsuario() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.usuario;
 	}
 	
 	

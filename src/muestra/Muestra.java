@@ -14,7 +14,7 @@ public class Muestra {
 	private Date fechaCreacion;
 	private Ubicacion ubicacion;
 	private String imagenMuestra;
-	private EstadoVerificacionMuestra estado;
+	private EstadoVerificacionMuestra estado = new EstadoVerificacionMuestra();
 	private List<Opinion> opiniones = new ArrayList<Opinion>();
 	
 	//constructor
