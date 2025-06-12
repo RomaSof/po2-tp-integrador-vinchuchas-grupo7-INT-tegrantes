@@ -64,6 +64,7 @@ public class Usuario {
                 cantidadDeEnvios++;
             }
         }
+        return cantidadDeEnvios;
 	}
 	
 	public int getCantidadDeRevisionesUltimos30Dias() {
@@ -77,6 +78,10 @@ public class Usuario {
             }
         }
         return cantidadDeEnvios;
+	}
+
+	public String getNombre() {
+		return nombre;
 	}
 	
 }
