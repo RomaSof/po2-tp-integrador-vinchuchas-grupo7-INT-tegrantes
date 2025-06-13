@@ -1,0 +1,5 @@
+# Ignorar el archivo .classpath
+.classpath
+
+# Ignorar la carpeta lib y todo su contenido
+lib/
