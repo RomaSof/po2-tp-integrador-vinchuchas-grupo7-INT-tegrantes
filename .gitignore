@@ -1,5 +1,8 @@
-# Ignorar el archivo .classpath
+# Ignorar archivos de Eclipse/Java
 .classpath
+.project
+.settings/
+bin/
 
-# Ignorar la carpeta lib y todo su contenido
+# Ignorar carpeta lib/
 lib/
