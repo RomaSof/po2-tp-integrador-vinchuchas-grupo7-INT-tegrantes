@@ -27,6 +27,7 @@ public class Muestra {
 		this.imagenMuestra = image;
 		this.opiniones.add(opinion);
 		user.addMuestra(this);
+		//duda sobre mandarle tambien la opinion al usuario
 	}
 	
 	//getters
