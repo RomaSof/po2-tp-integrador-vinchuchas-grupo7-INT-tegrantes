@@ -26,14 +26,7 @@ public class Muestra {
 		//this.ubicacion = user.getUbicacion(); -> NEED "ORGANIZACION" package
 		this.imagenMuestra = image;
 		this.opiniones.add(opinion);
-		//Version que pense
-		/*
-		 * this.usuario = user;
-		 * this.fechaCreacion = new Date(); no pasamos fecha por parametro y se agrega en la fecha de la creacion de la muestra
-		 * this.imagenMuestra = image;
-		 * this.tipoOpinion = tipoOpinion; cuando se pregunte devuelve el tipo de opinion que agrego el usuario
-		 * this.opiniones.add(new Opinion(user , tipoOp, this))
-		 * */
+		user.addMuestra(this);
 	}
 	
 	//getters

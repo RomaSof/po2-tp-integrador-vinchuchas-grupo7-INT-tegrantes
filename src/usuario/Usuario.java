@@ -22,6 +22,10 @@ public class Usuario {
 		return opiniones;
 	}
 	
+	public EstadoUsuario getEstadoUsuario() {
+		return this.estadoUsuario;
+	}
+	
 	public List<Muestra> getMuestras(){
 		return muestrasEnviadas;
 	}
