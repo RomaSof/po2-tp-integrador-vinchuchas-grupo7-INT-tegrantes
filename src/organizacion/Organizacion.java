@@ -10,6 +10,8 @@ public class Organizacion {
 	private Ubicacion ubicacion;
 	private List<Usuario> usuarios = new ArrayList();
 	
+	
+	//getters
 	public Ubicacion getUbicacion() {
 		return ubicacion;
 	}
@@ -22,12 +24,13 @@ public class Organizacion {
 		return 0;
 	}
 	
-	public void agregarUsuario(Usuario u) {
-		
+	public List<Usuario> getEmpleados(){
+		return this.usuarios;
 	}
 	
-	public List<Usuario> getUsuarios(){
-		return this.usuarios;
+	//methods
+	public void agregarUsuario(Usuario u) {
+		usuarios.add(u);
 	}
 
 }
