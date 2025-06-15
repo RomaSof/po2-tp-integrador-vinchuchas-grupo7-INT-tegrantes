@@ -26,7 +26,7 @@ public class BuscadorMuestra {
 	
 	public List<Muestra> buscarMuestras(List<Muestra> muestrasAFiltrar) {
 		return muestrasAFiltrar.stream()
-				.filter(muestra -> criterio.cumple(muestra))
+				.filter(muestra -> this.getCriterioBusqueda().cumple(muestra))
 				.collect(Collectors.toList());
 	}
 	
