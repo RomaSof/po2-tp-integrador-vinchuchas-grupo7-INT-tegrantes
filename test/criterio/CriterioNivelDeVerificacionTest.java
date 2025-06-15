@@ -9,36 +9,41 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import muestra.EstadoMuestraVerificada;
+import muestra.EstadoMuestraVerificandose;
 import muestra.Muestra;
-import opinion.TipoOpinion;
 
 public class CriterioNivelDeVerificacionTest {
-	private String nivelVerificacion;
-	private CriterioNivelDeVerificacion criterioNivelVerificacion;
+	private EstadoMuestraVerificada nivelVerificacion1;
+	private EstadoMuestraVerificandose nivelVerificacion2;
+	private CriterioNivelDeVerificacion criterioNivelVerificacion1;
+	private CriterioNivelDeVerificacion criterioNivelVerificacion2;
 	private Muestra muestra;
 	
 	@BeforeEach
 	public void setUp() {
-		nivelVerificacion = "Verificada";
-		criterioNivelVerificacion = new CriterioNivelDeVerificacion(nivelVerificacion);
+		nivelVerificacion1 = new EstadoMuestraVerificada();
+		nivelVerificacion2 = new EstadoMuestraVerificandose();
+		criterioNivelVerificacion1 = new CriterioNivelDeVerificacion(nivelVerificacion1);
+		criterioNivelVerificacion2 = new CriterioNivelDeVerificacion(nivelVerificacion2);
 		muestra = mock(Muestra.class);
 	}
 	
 	@Test
-	public void testCriterioNivelDeVerificacionSeInicializaCorrectamente() {
-		assertEquals("Verificada", criterioNivelVerificacion.getEstadoMuestra());
+	public void testGetNivelVerificacionDevuelveElEstadoCorrecto() {
+	    assertEquals(nivelVerificacion1, criterioNivelVerificacion1.getNivelVerificacion());
 	}
-	
+
 	@Test
 	public void testLaMuestraRecibidaCumpleConElCriterioNivelDeVerificacion() {
-		when(muestra.getEstadoMuestra().getNombreEstado()).thenReturn("Verificada"); // Agregar getNombreEstado() en los estados de las muestras para correr el test.
-		assertTrue(criterioNivelVerificacion.cumple(muestra));
+		when(muestra.getEstadoMuestra()).thenReturn(nivelVerificacion1);
+		assertTrue(criterioNivelVerificacion1.cumple(muestra));
 	}
 	
 	@Test
 	public void testLaMuestraRecibidaNoCumpleConElCriterioNivelDeVerificacion() {
-		when(muestra.getResultadoActual().getNombreEstado()).thenReturn("Verificandose");
-		assertFalse(criterioNivelVerificacion.cumple(muestra));
+		when(muestra.getEstadoMuestra()).thenReturn(nivelVerificacion1);
+		assertFalse(criterioNivelVerificacion2.cumple(muestra));
 	}
 }
 
