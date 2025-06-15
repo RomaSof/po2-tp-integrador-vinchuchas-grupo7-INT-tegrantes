@@ -1,28 +1,32 @@
 package criterio;
 
-import muestra.EstadoMuestraVerificada;
+import muestra.EstadoVerificacionMuestra;
 import muestra.Muestra;
 
-/*
- * La muestra tiene distintos estados según su nivel de verificacion, necesito obtener el estado a partir de algo como 
- * getNombreEstado() return "Verificada" o "En proceso"
- * 
- * 
- */
 public class CriterioNivelDeVerificacion implements CriterioBusqueda{
-	private String estadoVerificacion; 
+	private EstadoVerificacionMuestra estadoVerificacion; // EstadoVerificacionMuestra clase abstracta
 	
-	public CriterioNivelDeVerificacion(String estadoVerificacion) {
+	public CriterioNivelDeVerificacion(EstadoVerificacionMuestra estadoVerificacion) {
 		this.estadoVerificacion = estadoVerificacion;
 	}
 	
-	public String getEstadoMuestra() {
+	public EstadoVerificacionMuestra getNivelVerificacion() {
 		return this.estadoVerificacion;
 	}
 
 	@Override
 	public boolean cumple(Muestra muestra) {
-	// cada estado debe tener un getNombre() para poder filtrar el criterio de verificacion correctamente.
-		return (muestra.getEstadoMuestra().getNombreEstado() == this.getEstadoMuestra()); 
+		/*
+		 * Antes estaba comparando los estados con "==", pero eso me traía problemas.
+		 * Lo que hace "==" es comparar si los dos objetos son exactamente la misma instancia en memoria,
+		 * o sea, si apuntan al mismo lugar.
+		 *
+		 * Lo que en realidad quiero es comparar si ambos objetos representan el mismo estado lógico.
+		 * Para eso tengo que usar "equals()", que compara el contenido o el tipo del objeto,
+		 * según cómo esté definido.
+		 *
+		 * Por eso cambié la línea y ahora uso:
+		 */
+		return muestra.getEstadoMuestra().equals(this.getNivelVerificacion());
 	}
 }
