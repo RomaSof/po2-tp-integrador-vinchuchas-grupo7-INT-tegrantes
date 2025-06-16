@@ -86,4 +86,12 @@ class OpinionTest {
 		
 	}
 
+	@Test
+	void testearSiEsOpinionVerificada() {
+		assertFalse(opinion.esOpinionVerificada());
+		Usuario usuario2 = Mockito.spy(new Usuario("Juan", true));
+		Opinion op2 = new Opinion(usuario2, TipoOpinion.VINCHUCA_SORDIDA, new Date());
+		assertTrue(op2.esOpinionVerificada());
+	}
+	
 }
