@@ -83,5 +83,22 @@ public void seup() {
 		assertEquals(2, zona.getObservadoresDeZona().size()); //verifica que la lista tenga un observador menos
 		assertFalse(zona.getObservadoresDeZona().contains(o1)); //y verifica que no esté especificamente el que eliminó
 	}
+	
+	@Test
+	void notificacionesTest() {
+		zona.notificarNuevaMuestra(m1); //notifica a todos sus observadores ({o1,o2,o3})
+		
+		verify(o1, times(1)).nuevaMuestra(zona, m1);
+	    verify(o2, times(1)).nuevaMuestra(zona, m1);
+	    
+	    zona.agregarObservador(o3); //agrega un observador
+	    zona.quitarObservador(o1); //elimina un observador
+	    zona.notificarMuestraValida(m2); //envia la notificacion
+	    
+	    //verifica que le llegue la notificacion a todos los observadores subscriptos
+	    verify(o1, times(0)).muestraValidada(zona, m2); //no le debería llegar la notificacion
+	    verify(o2, times(1)).muestraValidada(zona, m2);
+	    verify(o3, times(1)).muestraValidada(zona, m2);
+	}
 
 }
