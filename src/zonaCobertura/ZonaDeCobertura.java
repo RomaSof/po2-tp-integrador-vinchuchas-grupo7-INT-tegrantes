@@ -44,6 +44,10 @@ public class ZonaDeCobertura implements ObservableZona {
 		return this.muestrasReportadas;
 	}
 	
+	public List<ObservadorZona> getObservadoresDeZona() {
+		return this.observadores;
+	} 
+	
 	//methods
 	//|centroA - centroB| < radioA + radioB determina si intersectan, o sea se solapan, dos zonas (son círculos)
 	public boolean seSolapaCon(ZonaDeCobertura zona) {
