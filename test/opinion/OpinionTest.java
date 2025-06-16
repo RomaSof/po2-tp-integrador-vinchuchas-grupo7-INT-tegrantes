@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 import muestra.Muestra;
 import usuario.Usuario;
+import usuario.UsuarioVerificado;
 
 class OpinionTest {
 	private Usuario usuario;
@@ -89,7 +90,7 @@ class OpinionTest {
 	@Test
 	void testearSiEsOpinionVerificada() {
 		assertFalse(opinion.esOpinionVerificada());
-		Usuario usuario2 = Mockito.spy(new Usuario("Juan"));
+		Usuario usuario2 = Mockito.spy(new UsuarioVerificado("Juan"));
 		Opinion op2 = new Opinion(usuario2, TipoOpinion.VINCHUCA_SORDIDA, new Date());
 		assertTrue(op2.esOpinionVerificada());
 	}
