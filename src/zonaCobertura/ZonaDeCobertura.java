@@ -49,14 +49,31 @@ public class ZonaDeCobertura implements ObservableZona {
 	public void agregarMuestra(Muestra m) {
 		this.muestrasReportadas.add(m);
 	}
+
+	@Override
+	public void agregarObservador(ObservadorZona observador) {
+		this.observadores.add(observador);
+		
+	}
+
+	@Override
+	public void quitarObservador(ObservadorZona observador) {
+		this.observadores.remove(observador);
+		
+	}
+
+	@Override
+	public void notificarNuevaMuestra(Muestra muestra) {
+		this.observadores.stream().forEach(observador -> observador.nuevaMuestra(this, muestra));
+		
+	}
+
+	@Override
+	public void notificarMuestraValida(Muestra muestra) {
+		this.observadores.stream().forEach(observador -> observador.muestraValidada(this, muestra));
+		
+	}
 	
 	
 
 }
-
-/*
-+ agregarMuestra(Muestra): void
-+ notificarNuevaMuestra(Muestra): void
-+ notificarMuestraValidada(Muestra): void
-+ agregarObservador(ObservadorZona): void
-+ quitarObservador(ObservadorZona): void*/
