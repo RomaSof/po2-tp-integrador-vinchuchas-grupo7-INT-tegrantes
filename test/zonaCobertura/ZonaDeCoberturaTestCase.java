@@ -35,9 +35,9 @@ class ZonaDeCoberturaTestCase {
 @BeforeEach
 public void seup() {
 	//ubicaciones
-	u1 = new Ubicacion(0,0);
-	u2 = new Ubicacion(5,0);
-	u3 = new Ubicacion(30,0);
+	u1 = new Ubicacion(-34.60, -58.40);
+	u2 = new Ubicacion(-34.61, -58.41);
+	u3 = new Ubicacion(-34.90,-58.40);
 	
 	//muestras
 	m1 = mock(Muestra.class);
@@ -57,14 +57,15 @@ public void seup() {
 	
 	//zonas
 	zona = new ZonaDeCobertura("zona a", u1, 10, muestras, observadores);
-	zona = new ZonaDeCobertura("zona b", u2, 7, muestras, observadores);
-	zona = new ZonaDeCobertura("zona c", u3, 5, muestras, observadores);
+	zona2 = new ZonaDeCobertura("zona b", u2, 8, muestras);
+	zona3 = new ZonaDeCobertura("zona c", u3, 5, muestras);
 	
 }
 
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void seColapSaConOtraZonaTest() {
+		assertTrue(zona.seSolapaCon(zona2)); //1.5 > 18 
+		assertFalse(zona.seSolapaCon(zona3)); //33.4 > 15
 	}
 
 }
