@@ -130,5 +130,22 @@ public class Muestra {
 				.stream()
 				.anyMatch(tipoOp -> tipoOp.size() > 1); //returns if at least 2 opinions have the same type 
 	}
+	
+	// Una muestra siempre tiene al menos una opinion porque cuando se crea la muestra siempre tiene la opinion de quien crea la muestra.
+	// Así que nunca puede tener una lista de opiniones vacia.
+	public Date getFechaUltimaVotacion() {
+	    List<Opinion> opiniones = this.getHistorialDeOpiniones();
+
+	    Date fechaMasReciente = opiniones.get(0).getFechaOpinion();
+
+	    for (Opinion opinion : opiniones) {
+	        Date fechaActual = opinion.getFechaOpinion();
+	        if (fechaActual.after(fechaMasReciente)) {
+	            fechaMasReciente = fechaActual;
+	        }
+	    }
+
+	    return fechaMasReciente;
+	}
 
 }
