@@ -13,6 +13,6 @@ public class EstadoUsuarioVerificado implements EstadoUsuario{
 	}
 
 
-	public boolean verificarCambioDeEstado(Usuario usuario) {return true;};
+	public boolean verificarCambioDeEstado(Usuario usuario) {return false;};
 
 }
