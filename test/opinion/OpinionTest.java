@@ -72,7 +72,7 @@ class OpinionTest {
 		// muestra 2
 	    Usuario usuario3 = Mockito.spy(new Usuario("Juan"));
 	    Opinion opinionUser3 = Mockito.spy(new Opinion(usuario3, TipoOpinion.VINCHUCA_GUASAYANA, new Date()));
-	    Muestra muestra2 = Mockito.spy(new Muestra(usuario3, new Date(), "imagen.jpg" , opinion));
+	    Muestra muestra2 = Mockito.spy(new Muestra(usuario3, new Date(), "imagen.jpg" , opinionUser3));
 	    
 	    assertEquals(muestra2.getHistorialDeOpiniones().size() , 1);
 	    
