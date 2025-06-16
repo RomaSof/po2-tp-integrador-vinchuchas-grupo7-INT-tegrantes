@@ -3,10 +3,13 @@ package organizacion;
 import java.util.ArrayList;
 import java.util.List;
 
+import muestra.Muestra;
 import ubicacion.Ubicacion;
 import usuario.Usuario;
+import zonaCobertura.ObservadorZona;
+import zonaCobertura.ZonaDeCobertura;
 
-public class Organizacion {
+public class Organizacion implements ObservadorZona{
 	private Ubicacion ubicacion;
 	private List<Usuario> usuarios = new ArrayList();
 	
@@ -31,6 +34,18 @@ public class Organizacion {
 	//methods
 	public void agregarUsuario(Usuario u) {
 		usuarios.add(u);
+	}
+
+	@Override
+	public void nuevaMuestra(ZonaDeCobertura zona, Muestra muestra) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void muestraValidada(ZonaDeCobertura zona, Muestra muestra) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
