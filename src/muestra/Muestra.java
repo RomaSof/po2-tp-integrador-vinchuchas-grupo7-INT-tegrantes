@@ -27,6 +27,7 @@ public class Muestra {
 		this.imagenMuestra = image;
 		this.opiniones.add(opinion);
 		user.addMuestra(this);
+		user.addOpinion(opinion);
 		//duda sobre mandarle tambien la opinion al usuario
 	}
 	
@@ -101,6 +102,14 @@ public class Muestra {
 					
 	}
 	
+	public boolean usuarioYaOpino(Usuario usuario) {
+	    for (Opinion opinion : this.getHistorialDeOpiniones()) {
+	        if (opinion.getUsuario().equals(usuario)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 	
 	//setters
 	public void setEstadoMuestra(EstadoVerificacionMuestra estado) {
