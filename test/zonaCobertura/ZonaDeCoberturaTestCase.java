@@ -66,8 +66,8 @@ public void seup() {
 	@Test
 	void seColapSaConOtraZonaTest() {
 		//verifica si las zonas colapsan entre si.
-		assertTrue(zona.seSolapaCon(zona2)); //1.5 > 18
-		assertFalse(zona.seSolapaCon(zona3)); //33.4 > 15
+		assertTrue(zona.seSolapaCon(zona2)); //1.5 > 18 = solapan
+		assertFalse(zona.seSolapaCon(zona3)); //33.4 > 15 = no solapan
 	}
 	
 	@Test
@@ -86,13 +86,14 @@ public void seup() {
 	
 	@Test
 	void notificacionesTest() {
-		zona.notificarNuevaMuestra(m1); //notifica a todos sus observadores ({o1,o2,o3})
+		zona.notificarNuevaMuestra(m1); //notifica a todos sus observadores ({o1,o2})
 		
 		verify(o1, times(1)).nuevaMuestra(zona, m1);
 	    verify(o2, times(1)).nuevaMuestra(zona, m1);
 	    
 	    zona.agregarObservador(o3); //agrega un observador
 	    zona.quitarObservador(o1); //elimina un observador
+	    
 	    zona.notificarMuestraValida(m2); //envia la notificacion
 	    
 	    //verifica que le llegue la notificacion a todos los observadores subscriptos
