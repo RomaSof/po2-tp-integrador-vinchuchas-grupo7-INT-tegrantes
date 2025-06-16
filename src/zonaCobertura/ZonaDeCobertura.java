@@ -6,12 +6,12 @@ import java.util.List;
 import muestra.Muestra;
 import ubicacion.Ubicacion;
 
-public class ZonaDeCobertura {
+public class ZonaDeCobertura implements ObservableZona {
 	private String nombre;
 	private Ubicacion epicentro;
 	private double distanciaEnKm;
 	private List<Muestra> muestrasReportadas = new ArrayList<Muestra>();
-	private List<ObservadorMuestra> observadores = new ArrayList<ObservadorMuestra>();
+	private List<ObservadorZona> observadores = new ArrayList<ObservadorZona>();
 	
 	//constructor
 	public ZonaDeCobertura(String nombre, Ubicacion ubicacion, double distancia, List<Muestra> muestras) {
