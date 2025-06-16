@@ -8,6 +8,7 @@ import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import muestra.Muestra;
 import usuario.Usuario;
@@ -21,16 +22,23 @@ class OpinionTest {
 	
 	@BeforeEach
 	public void setup() {
-	    localDate = LocalDate.of(2025, 5, 3); // 3 de Mayo 2025
+	    localDate = LocalDate.now();
 	    date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-	    usuario = new Usuario("Juan", false);
-	    opinion = new Opinion(usuario, TipoOpinion.VINCHUCA_GUASAYANA , date);
-	
+	    
+	    usuario = Mockito.spy(new Usuario("Jose", false));
+	    opinion = Mockito.spy(new Opinion(usuario, TipoOpinion.VINCHUCA_SORDIDA, new Date()));
+	    muestra = Mockito.spy(new Muestra(usuario, new Date(), "imagen.jpg" , opinion));
+	    opinion.enviarOpinion(muestra);
+	    
+	    
+	    
 	}
 	
 	@Test
-	void test() {
-		assertTrue(true);
+	void testCreacionMuestra() {
+		assertTrue(muestra.getRecolectorMuestra().equals(usuario));
+		assertEquals(muestra.getHistorialDeOpiniones().size(), 1);
+		assertTrue(muestra.getEspecie().equals(TipoOpinion.VINCHUCA_SORDIDA.getEspecie()));
 	}
 
 }
