@@ -40,5 +40,14 @@ class OpinionTest {
 		assertEquals(muestra.getHistorialDeOpiniones().size(), 1);
 		assertTrue(muestra.getEspecie().equals(TipoOpinion.VINCHUCA_SORDIDA.getEspecie()));
 	}
+	
+	@Test
+	void testEnviarOpinion() {
+		Usuario usuario2 = Mockito.spy(new Usuario("Raul", false));
+		Opinion op2 = Mockito.spy(new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA , new Date()));
+		op2.enviarOpinion(muestra); // envio la opinion
+		assertEquals(muestra.getHistorialDeOpiniones().size(), 2);
+		
+	}
 
 }
