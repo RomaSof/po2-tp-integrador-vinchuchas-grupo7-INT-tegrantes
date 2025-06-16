@@ -51,7 +51,6 @@ class UsuarioTest {
 	   
 	    muestra = new Muestra(usuario1, date, "image", opinion);
 	    
-	    opinion.enviarOpinion(muestra); // agregamos la muestra a usuario
 		
 	}
 
