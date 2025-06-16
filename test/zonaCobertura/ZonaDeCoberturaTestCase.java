@@ -33,6 +33,9 @@ class ZonaDeCoberturaTestCase {
 	private ObservadorZona o2;
 	private ObservadorZona o3;
 	
+	List<Muestra> muestras;
+	List<ObservadorZona> observadores;
+	
 @BeforeEach
 public void seup() {
 	// instancia ubicaciones
@@ -51,10 +54,10 @@ public void seup() {
 	o3 = mock(ObservadorZona.class);
 	
 	//lista muestras 
-	List<Muestra> muestras = new ArrayList<Muestra>(Arrays.asList(m1,m2));
+	muestras = new ArrayList<Muestra>(Arrays.asList(m1,m2));
 	
 	//lista observadores
-	List<ObservadorZona> observadores = new ArrayList<ObservadorZona>(Arrays.asList(o1,o2));
+	observadores = new ArrayList<ObservadorZona>(Arrays.asList(o1,o2));
 	
 	//instancia zonas
 	zona = new ZonaDeCobertura("zona a", u1, 10, muestras, observadores);
@@ -70,6 +73,7 @@ public void seup() {
 		assertFalse(zona.seSolapaCon(zona3)); //33.4 > 15 = no solapan
 	}
 	
+	//TEST OBSERVADORES
 	@Test
 	void agregarYQuitarObservadorTest() {
 		//verifica que actualmente hay 2 observadores en esa zona
@@ -78,19 +82,29 @@ public void seup() {
 		zona.agregarObservador(o3); //agrega un nuevo observador y luego verifica que haya uno más entre los observadores
 		
 		assertEquals(3, zona.getObservadoresDeZona().size());
-		
-		zona.quitarObservador(o1); //quita un observador 
-		assertEquals(2, zona.getObservadoresDeZona().size()); //verifica que la lista tenga un observador menos
-		assertFalse(zona.getObservadoresDeZona().contains(o1)); //y verifica que no esté especificamente el que eliminó
 	}
 	
 	@Test
-	void notificacionesTest() {
+	void quitarObservadorTest() {
+		//verifica que actualmente hay 2 observadores en esa zona
+		assertEquals(2, zona.getObservadoresDeZona().size());
+		
+		zona.quitarObservador(o1); //quita un observador 
+		assertEquals(1, zona.getObservadoresDeZona().size()); //verifica que la lista tenga un observador menos
+		assertFalse(zona.getObservadoresDeZona().contains(o1)); //y verifica que no esté especificamente el que eliminó
+	}
+	
+	//TEST NOTIFICACIONES
+	@Test
+	void nuevaMuestraTest() {
 		zona.notificarNuevaMuestra(m1); //notifica a todos sus observadores ({o1,o2})
 		
 		verify(o1, times(1)).nuevaMuestra(zona, m1);
 	    verify(o2, times(1)).nuevaMuestra(zona, m1);
-	    
+	}
+	
+	@Test
+	void muestraValidaTest() {	    
 	    zona.agregarObservador(o3); //agrega un observador
 	    zona.quitarObservador(o1); //elimina un observador
 	    
@@ -101,5 +115,38 @@ public void seup() {
 	    verify(o2, times(1)).muestraValidada(zona, m2);
 	    verify(o3, times(1)).muestraValidada(zona, m2);
 	}
+	
+	
+	@Test
+	void getNombreTest() {
+		assertEquals("zona a", zona.getNombre()); 
+	}
+	
+	//TEST MUESTRAS
+	@Test
+	void getMusetrasReportadasTest() {
+		assertEquals(muestras, zona.getMuestrasReportadas()); 
+		
+		//agrega una nueva muetra y verifica que se haya agregado
+		assertEquals(2, zona.getMuestrasReportadas().size());
+		assertFalse(zona.getMuestrasReportadas().contains(m3));
+		zona.agregarMuestra(m3);
+		assertEquals(3, zona.getMuestrasReportadas().size());
+		assertTrue(zona.getMuestrasReportadas().contains(m3));
+	}
+	
+	@Test
+	void agregarMuestraTest() {		
+		//agrega una nueva muetra y verifica que se haya agregado
+		
+		assertEquals(2, zona.getMuestrasReportadas().size());
+		assertFalse(zona.getMuestrasReportadas().contains(m3));
+		
+		zona.agregarMuestra(m3);
+		
+		assertEquals(3, zona.getMuestrasReportadas().size());
+		assertTrue(zona.getMuestrasReportadas().contains(m3));
+	}
+	
 
 }
