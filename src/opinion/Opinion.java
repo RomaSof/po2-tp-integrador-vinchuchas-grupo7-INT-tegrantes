@@ -27,11 +27,9 @@ public class Opinion {
 	
 	
 	public void enviarOpinion(Muestra muestra) {
-	    if (!muestra.getHistorialDeOpiniones().contains(this)) {
+	    if (!muestra.usuarioYaOpino(this.usuario)) {
 	        muestra.agregarOpinion(this);
-	    }
-	    if(!this.getUsuario().getOpiniones().contains(this)) {
-	    this.getUsuario().addOpinion(this);
+	        this.getUsuario().addOpinion(this);
 	    }
 	   }
 	
