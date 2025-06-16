@@ -15,11 +15,11 @@ public class Usuario {
 
 	private String nombre;
 	private List<Muestra> muestrasEnviadas = new ArrayList<Muestra>();
-	private List<Opinion> opiniones = new ArrayList<Opinion>();
+	private List<Opinion> opinionesEnviadas = new ArrayList<Opinion>();
 	private EstadoUsuario estadoUsuario;
 	
 	public List<Opinion> getOpiniones() {
-		return opiniones;
+		return opinionesEnviadas;
 	}
 	
 	public EstadoUsuario getEstadoUsuario() {
@@ -31,7 +31,7 @@ public class Usuario {
 	}
 	
 	public void addOpinion(Opinion opinion) {
-		opiniones.add(opinion);
+		opinionesEnviadas.add(opinion);
 	}
 	
 	public void addMuestra(Muestra muestra) {
@@ -80,7 +80,7 @@ public class Usuario {
         LocalDate hoy = LocalDate.now();
         LocalDate hace30Dias = hoy.minusDays(30);
 		int cantidadDeRevisiones = 0;
-        for (Opinion opinion : opiniones) {
+        for (Opinion opinion : opinionesEnviadas) {
         	// Convertir Date a LocalDate
             LocalDate fechaOpinion = opinion.getFechaOpinion()
                     .toInstant()
