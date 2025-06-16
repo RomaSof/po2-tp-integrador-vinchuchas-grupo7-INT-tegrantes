@@ -35,9 +35,9 @@ class ZonaDeCoberturaTestCase {
 @BeforeEach
 public void seup() {
 	//ubicaciones
-	u1 = mock(Ubicacion.class);
-	u2 = mock(Ubicacion.class);
-	u3 = mock(Ubicacion.class);
+	u1 = new Ubicacion(0,0);
+	u2 = new Ubicacion(5,0);
+	u3 = new Ubicacion(30,0);
 	
 	//muestras
 	m1 = mock(Muestra.class);
@@ -56,9 +56,9 @@ public void seup() {
 	List<ObservadorZona> observadores = new ArrayList<ObservadorZona>(Arrays.asList(o1,o2));
 	
 	//zonas
-	zona = new ZonaDeCobertura("zona a", u1, 300, muestras, observadores);
-	zona = new ZonaDeCobertura("zona b", u2, 240, muestras, observadores);
-	zona = new ZonaDeCobertura("zona c", u3, 500, muestras, observadores);
+	zona = new ZonaDeCobertura("zona a", u1, 10, muestras, observadores);
+	zona = new ZonaDeCobertura("zona b", u2, 7, muestras, observadores);
+	zona = new ZonaDeCobertura("zona c", u3, 5, muestras, observadores);
 	
 }
 
