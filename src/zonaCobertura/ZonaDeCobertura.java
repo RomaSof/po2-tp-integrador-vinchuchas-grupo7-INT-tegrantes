@@ -61,14 +61,16 @@ public class ZonaDeCobertura implements ObservableZona {
 
 	@Override
 	public void agregarObservador(ObservadorZona observador) {
-		this.observadores.add(observador);
-		
+		if(! this.observadores.contains(observador)) {
+			this.observadores.add(observador);
+		}
 	}
 
 	@Override
 	public void quitarObservador(ObservadorZona observador) {
-		this.observadores.remove(observador);
-		
+		if(this.observadores.contains(observador)) {
+			this.observadores.remove(observador);
+		}
 	}
 
 	@Override
