@@ -55,7 +55,7 @@ public class Organizacion implements ObservadorZona{
 	}
 	
 	public void setFuncionalidadExternaValidacion(FuncionalidadExterna newFValidacion) {
-		this.fCargaNuevaMuestra = newFValidacion;
+		this.fValidacionNuevaMuestra = newFValidacion;
 	}
 	
 	
@@ -72,7 +72,7 @@ public class Organizacion implements ObservadorZona{
 
 	@Override
 	public void muestraValidada(ZonaDeCobertura zona, Muestra muestra) {
-		this.fCargaNuevaMuestra.nuevoEvento(this, zona, muestra);
+		this.fValidacionNuevaMuestra.nuevoEvento(this, zona, muestra);
 		
 	}
 
