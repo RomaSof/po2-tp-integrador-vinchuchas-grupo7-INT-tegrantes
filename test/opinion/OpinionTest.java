@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 import muestra.Muestra;
 import usuario.Usuario;
+import usuario.UsuarioVerificado;
 
 class OpinionTest {
 	private Usuario usuario;
@@ -25,7 +26,7 @@ class OpinionTest {
 	    localDate = LocalDate.now();
 	    date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	    
-	    usuario = Mockito.spy(new Usuario("Jose", false));
+	    usuario = Mockito.spy(new Usuario("Jose"));
 	    opinion = Mockito.spy(new Opinion(usuario, TipoOpinion.VINCHUCA_SORDIDA, new Date()));
 	    muestra = Mockito.spy(new Muestra(usuario, new Date(), "imagen.jpg" , opinion));
 	    opinion.enviarOpinion(muestra);
@@ -43,7 +44,7 @@ class OpinionTest {
 	
 	@Test
 	void testEnviarOpinion() {
-		Usuario usuario2 = Mockito.spy(new Usuario("Raul", false));
+		Usuario usuario2 = Mockito.spy(new Usuario("Raul"));
 		Opinion op2 = Mockito.spy(new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA , new Date()));
 		op2.enviarOpinion(muestra); // envio la opinion
 		assertEquals(muestra.getHistorialDeOpiniones().size(), 2);
@@ -52,7 +53,7 @@ class OpinionTest {
 	
 	@Test
 	void testUsuarioNoPuedeEnviar2OpinionesAUnaMuestra() {
-		Usuario usuario2 = Mockito.spy(new Usuario("Raul", false));
+		Usuario usuario2 = Mockito.spy(new Usuario("Raul"));
 		Opinion op2 = Mockito.spy(new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA , new Date()));
 		op2.enviarOpinion(muestra); // envio la opinion
 		assertEquals(muestra.getHistorialDeOpiniones().size(), 2);
@@ -63,15 +64,15 @@ class OpinionTest {
 	
 	@Test
 	void testUsuarioEnviaOpionesAMasDeUnaMuestra() {
-		Usuario usuario2 = Mockito.spy(new Usuario("Raul", false));
+		Usuario usuario2 = Mockito.spy(new Usuario("Raul"));
 		Opinion op2 = Mockito.spy(new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA , new Date()));
 		op2.enviarOpinion(muestra); // envio la opinion
 		assertEquals(muestra.getHistorialDeOpiniones().size(), 2);
 		
 		// muestra 2
-	    Usuario usuario3 = Mockito.spy(new Usuario("Juan", false));
+	    Usuario usuario3 = Mockito.spy(new Usuario("Juan"));
 	    Opinion opinionUser3 = Mockito.spy(new Opinion(usuario3, TipoOpinion.VINCHUCA_GUASAYANA, new Date()));
-	    Muestra muestra2 = Mockito.spy(new Muestra(usuario3, new Date(), "imagen.jpg" , opinion));
+	    Muestra muestra2 = Mockito.spy(new Muestra(usuario3, new Date(), "imagen.jpg" , opinionUser3));
 	    
 	    assertEquals(muestra2.getHistorialDeOpiniones().size() , 1);
 	    
@@ -89,7 +90,7 @@ class OpinionTest {
 	@Test
 	void testearSiEsOpinionVerificada() {
 		assertFalse(opinion.esOpinionVerificada());
-		Usuario usuario2 = Mockito.spy(new Usuario("Juan", true));
+		Usuario usuario2 = Mockito.spy(new UsuarioVerificado("Juan"));
 		Opinion op2 = new Opinion(usuario2, TipoOpinion.VINCHUCA_SORDIDA, new Date());
 		assertTrue(op2.esOpinionVerificada());
 	}

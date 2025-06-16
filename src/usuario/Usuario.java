@@ -9,14 +9,13 @@ import muestra.Muestra;
 import opinion.Opinion;
 import usuarioEstado.EstadoUsuario;
 import usuarioEstado.EstadoUsuarioBasico;
-import usuarioEstado.EstadoUsuarioVerificado;
 
 public class Usuario {
 
 	private String nombre;
 	private List<Muestra> muestrasEnviadas = new ArrayList<Muestra>();
 	private List<Opinion> opinionesEnviadas = new ArrayList<Opinion>();
-	private EstadoUsuario estadoUsuario;
+	private EstadoUsuario estadoUsuario = new EstadoUsuarioBasico();
 	
 	public List<Opinion> getOpiniones() {
 		return opinionesEnviadas;
@@ -38,13 +37,8 @@ public class Usuario {
 		muestrasEnviadas.add(muestra);
 	}
 	
-	public Usuario(String nombre, boolean esVerificado) {	
+	public Usuario(String nombre) {	
 		this.nombre = nombre;
-		if(esVerificado) {
-			this.estadoUsuario = new EstadoUsuarioVerificado();
-		}else {
-			this.estadoUsuario = new EstadoUsuarioBasico();
-		}
 	}
 	
 	public void actualizarEstado() {

@@ -36,16 +36,16 @@ class UsuarioTest {
 		localDate = LocalDate.now();
 		date = new Date();
 	    vinchuca = TipoOpinion.VINCHUCA_INFESTAN;
-		usuario1 = new Usuario("Juan", false);
-		usuario2 = new Usuario("Pepe", false);
+		usuario1 = new Usuario("Juan");
+		usuario2 = new Usuario("Pepe");
 		
 		//instancia de un mock usuario llamado Jose(usuario basico)
 		
-		usuario3 = Mockito.spy(new Usuario("Jose", false));
+		usuario3 = Mockito.spy(new Usuario("Jose"));
 		
 		//instancia espia Verificado
 		
-		usuario4 = Mockito.spy(new Usuario("Alberto", true));
+		usuario4 = Mockito.spy(new UsuarioVerificado("Alberto"));
 	    
 	    opinion = new Opinion(usuario1, vinchuca , date);
 	   
@@ -128,13 +128,13 @@ class UsuarioTest {
 		usuario4.actualizarEstado();
 		//no debe actualizar el estado a basico
 		assertTrue(usuario4.esExperto());
-		assertTrue(usuario4.getEstadoUsuario().verificarCambioDeEstado(usuario4)); // siempre devuelve true
+		assertFalse(usuario4.getEstadoUsuario().verificarCambioDeEstado(usuario4)); // siempre devuelve false
 	}
 	
 	@Test
 	void testOpinionFueraDePeriodo30Dias() {
 	    // Crear un usuario NUEVO para este test (evita contaminación del setup)
-	    Usuario usuarioTest = new Usuario("UsuarioTest", false);
+	    Usuario usuarioTest = new Usuario("UsuarioTest");
 	    
 	    LocalDate fechaAntigua = LocalDate.now().minusDays(31);
 	    Date fechaOpinionAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -150,7 +150,7 @@ class UsuarioTest {
 
 	@Test
 	void testMuestraFueraDePeriodo30Dias() {
-	    Usuario usuarioTest = new Usuario("UsuarioMuestraTest", false);
+	    Usuario usuarioTest = new Usuario("UsuarioMuestraTest");
 	    
 	    LocalDate fechaAntigua = LocalDate.now().minusDays(35);
 	    Date fechaMuestraAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -169,7 +169,7 @@ class UsuarioTest {
 	@Test
 	void testOpinionVerificadaALahoraDeOpinarPeroDespuesElUsuarioPasaAEstadoBasico() {
 	    // 1. Configurar usuario como experto inicialmente
-	    Usuario usuarioExperto = new Usuario("Carlos", false);
+	    Usuario usuarioExperto = new Usuario("Carlos");
 	    usuarioExperto.setEstado(new EstadoUsuarioExperto());
 	    assertTrue(usuarioExperto.esExperto());
 	    
