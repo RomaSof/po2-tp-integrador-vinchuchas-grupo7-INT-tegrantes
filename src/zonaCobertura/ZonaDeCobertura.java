@@ -21,6 +21,12 @@ public class ZonaDeCobertura implements ObservableZona {
 		this.muestrasReportadas = muestras;
 	}
 	
+	//constructor con observadores
+	public ZonaDeCobertura(String nombre, Ubicacion ubicacion, double distancia, List<Muestra> muestras, List<ObservadorZona> observadores) {
+		this(nombre, ubicacion, distancia, muestras);
+		this.observadores = observadores;
+	}
+	
 	//getters
 	public String getNombre() {
 		return this.nombre;
@@ -39,7 +45,6 @@ public class ZonaDeCobertura implements ObservableZona {
 	}
 	
 	//methods
-	
 	//|centroA - centroB| < radioA + radioB determina si intersectan, o sea se solapan, dos zonas (son círculos)
 	public boolean seSolapaCon(ZonaDeCobertura zona) {
 		return 
@@ -73,7 +78,6 @@ public class ZonaDeCobertura implements ObservableZona {
 		this.observadores.stream().forEach(observador -> observador.muestraValidada(this, muestra));
 		
 	}
-	
 	
 
 }
