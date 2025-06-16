@@ -1,6 +1,6 @@
 package organizacion;
 
-public enum tipoOrganicacion {
+public enum TipoOrganicacion {
 	SALUD, 
 	EDUCATIVA,
 	CULTURAL,
