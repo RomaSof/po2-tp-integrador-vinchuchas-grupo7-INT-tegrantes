@@ -71,9 +71,10 @@ public class Muestra {
 	}
 	
 	//devuelve la opinion entre la de los expertos que más se repite
-	//si llegase a haber empate devuelve cualquiera entre las empatadas y si no hay experto devuelve la opinion del usuario que publicó la muestra
+	//si llegase a haber empate devuelve cualquiera entre las empatadas
+	//si no hay experto devuelve la opinion del usuario que publicó la muestra, 
+	//pero es un caso que nunca va a sucedes porque este método solo se llama cuando al menos 2 expertos opinan
 	public TipoOpinion getOpinionQueCoincidenExpertos(){
-		TipoOpinion opUser = this.opiniones.get(0).getTipoEspecie(); //caso base, la lista de opiniones nunca esta vacia
 		return 
 				this.getOpinionesDeExpertos() //filtra solo la de los expertos
 				.stream()
@@ -83,15 +84,15 @@ public class Muestra {
 				.stream() //los convierte en un set de tipo de opinion y las veces que se repiten
 				.max(Map.Entry.comparingByValue()) //busca el que más se repite
 				.map(Map.Entry::getKey) //los convierte en map otra vez y devuelve el value, la opinion
-				.orElse(opUser); //si no hay ninguna devuelve la opinion del usuario que subió la muestra
+				.orElse(this.opinionInicial); //si no hay ninguna devuelve la opinion del tipo del usuario que subió la muestra
 			//pero es un caso que nunca va a sucedes porque este método solo se llama cuando al menos 2 expertos opinan
 				
 	}
 	 
 	//devuelve la opinion que más se repite entre todas las opiniones de la muestra
-	//si no hay opiniones que se repiten devuelve una cualquiera
+	//si no hay opiniones que se repiten devuelve una cualquiera entre las opiniones
+	//si no hay opiniones devuelve el tipo de opinion de la muestra
 	public TipoOpinion getOpinionMasPopular() {
-		TipoOpinion opUser = this.opiniones.get(0).getTipoEspecie();
 		return 
 			this.opiniones
 				.stream()
@@ -102,13 +103,11 @@ public class Muestra {
 				.stream()
 				.max(Map.Entry.comparingByValue()) //saca el más repetido 
 				.map(Map.Entry::getKey) //devuelve el tipo
-				.orElse(opUser); //si no hay votos, entonces devuelve el del usuario que postea la muestra
-		//este caso nunca va a pasar porque siempre por lo menos hay 1 voto que es la del usuario que publica dicha muestra
+				.orElse(this.opinionInicial); //si no hay votos, entonces devuelve el del usuario que publicó la muestra
 					
 	}
 	
-	// Una muestra siempre tiene al menos una opinion porque cuando se crea la muestra siempre tiene la opinion de quien crea la muestra.
-	// Así que nunca puede tener una lista de opiniones vacia.
+	//devuelve la fehca de la ultima votacion sobre la muestra, si no hay ninguna, devuelve la fecha de creacion de la muestra
 	public LocalDate getFechaUltimaVotacion() {
 
 		List<Opinion> opiniones = this.getHistorialDeOpiniones();
@@ -121,7 +120,7 @@ public class Muestra {
 	        }
 	    }
 	    
-	    return fechaMasReciente;
+	    return this.opiniones.isEmpty() ? this.fechaCreacion : fechaMasReciente;
 	}
 	
 	//setters
@@ -133,13 +132,14 @@ public class Muestra {
 	//methods
 	
 	//revisa todos los usuarios de las opiniones que tiene la muestra para ver si el usuario que esta queriendo opinar ya opinó
+	//si el usuario ya opinó sobre la muestra no puede volver a opinar en la misma muestra
 	public boolean puedeOpinar(Usuario usuario) {
 	    for (Opinion opinion : this.getHistorialDeOpiniones()) {
 	        if (opinion.getUsuario().equals(usuario)) {
-	            return true;
+	            return false;
 	        }
 	    }
-	    return false;
+	    return true;
 	}
 		
 	public void agregarOpinion(Opinion opinion) {

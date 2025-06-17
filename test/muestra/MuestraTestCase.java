@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,12 +19,15 @@ import org.junit.jupiter.api.Test;
 
 import opinion.Opinion;
 import opinion.TipoOpinion;
+import ubicacion.Ubicacion;
 
 class MuestraTestCase {
 	//SUT
-	public Muestra muestra;
+	public Muestra muestra; 
 	
 	//DOCS
+	
+	//opiniones
 	public Opinion op;
 	public Opinion op1;
 	public Opinion op2;
@@ -29,7 +35,7 @@ class MuestraTestCase {
 	public Opinion op4;
 	public Opinion op5;
 	public Opinion op6;
-	
+	//usuarios
 	public Usuario user;
 	public Usuario normal1;
 	public Usuario normal2;
@@ -38,6 +44,10 @@ class MuestraTestCase {
 	public Usuario experto2;
 	public Usuario experto3;
 	
+	//ubicacion de la muestra
+	Ubicacion ubicacion;
+	
+	//date 
 	LocalDate hoy = LocalDate.now();
 	
 	@BeforeEach
@@ -93,9 +103,159 @@ class MuestraTestCase {
 		when(op5.getUsuario()).thenReturn(experto2);
 		when(op6.getUsuario()).thenReturn(experto3);
 		
-		muestra = new Muestra(user, hoy, null, "image", TipoOpinion.IMAGEN_POCO_CLARA);
+		//ubicacion 
+		ubicacion = mock(Ubicacion.class);
+		
+		//sujeto de prueba muestra
+		muestra = new Muestra(user, hoy, ubicacion, "image Vinchukis", TipoOpinion.IMAGEN_POCO_CLARA);
 	}
 
+	//GETTERS TESTS
+	@Test
+	void getEspecieTest() {
+		assertEquals(TipoOpinion.IMAGEN_POCO_CLARA.getEspecie(), muestra.getEspecie());
+	}
+	
+	@Test
+	void getFotoMuestraTest() {
+		assertEquals("image Vinchukis", muestra.getFotoMuestra());
+	}
+	
+	@Test
+	void getUbicacionTest() {
+		assertEquals(ubicacion, muestra.getUbicacion());
+	}
+	
+	@Test
+	void getFechaCreacionTest() {
+		assertEquals(hoy, muestra.getFechaCreacion());
+	}
+	
+	@Test
+	void getRecolectorMuestraTest() {
+		assertEquals(user, muestra.getRecolectorMuestra());
+	}
+	
+	@Test
+	void getResultadoActualTest() {
+		assertEquals(TipoOpinion.IMAGEN_POCO_CLARA, muestra.getResultadoActual());
+	}
+	
+	@Test
+	void getEstadoMuestra() {
+		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
+	}
+	
+	@Test
+	void getHistorialDeOpinionesTest() {
+		muestra.agregarOpinion(op1);
+		muestra.agregarOpinion(op2);
+		muestra.agregarOpinion(op3);
+		
+		List<Opinion> historialEsperado = new ArrayList<Opinion>(Arrays.asList(op1,op2,op3));
+		
+		assertEquals(historialEsperado, muestra.getHistorialDeOpiniones());
+	}
+	
+	@Test
+	void getOpinionesDeExpertosTest() {
+		assertTrue(muestra.getHistorialDeOpiniones().isEmpty());
+		
+		muestra.agregarOpinion(op1); //opinion comun
+		muestra.agregarOpinion(op2); //opinion comun
+		muestra.agregarOpinion(op4); //opinion de experto
+		muestra.agregarOpinion(op5); //opinion de experto
+		
+		assertEquals(4, muestra.getHistorialDeOpiniones().size());
+		
+		List<Opinion> opsExpertasEsperadas = new ArrayList<Opinion>(Arrays.asList(op4,op5));
+		
+		assertEquals(opsExpertasEsperadas, muestra.getOpinionesDeExpertos());
+	}
+	
+	@Test
+	void getOpinionQueCoincidenExpertosTest() {
+		muestra.agregarOpinion(op1); //opinion común -> TipoOpinion.VINCHUCA_SORDIDA
+		muestra.agregarOpinion(op4); //opinion de experto -> TipoOpinion.VINCHUCA_SORDIDA
+		muestra.agregarOpinion(op5); //opinion de experto -> TipoOpinion.CHINCHE_FOLIADA
+		muestra.agregarOpinion(op6); //opinion de experto -> TipoOpinion.CHINCHE_FOLIADA
+		
+		assertEquals(TipoOpinion.CHINCHE_FOLIADA, muestra.getOpinionQueCoincidenExpertos());
+	}
+	
+	@Test
+	void getOpinionMasPopularTest() {
+		muestra.agregarOpinion(op1); //opinion común -> TipoOpinion.VINCHUCA_SORDIDA
+		muestra.agregarOpinion(op2); //opinion común -> TipoOpinion.CHINCHE_FOLIADA
+		muestra.agregarOpinion(op3); //opinion común -> TipoOpinion.CHINCHE_FOLIADA
+
+		assertEquals(TipoOpinion.CHINCHE_FOLIADA, muestra.getOpinionMasPopular());
+	}
+	
+	@Test
+	void getFechaUltimaVotacionTest() {
+		LocalDate fecha = LocalDate.of(2020, 2, 2);
+		when(op1.getFechaOpinion()).thenReturn(fecha);
+		
+		muestra.agregarOpinion(op1);
+		
+		assertEquals(fecha, muestra.getFechaUltimaVotacion());
+	}
+	
+	//SETTERS TESTS
+	@Test
+	void setEstadoMuestraTest() {
+		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
+		
+		muestra.setEstadoMuestra(new EstadoMuestraVerificada());
+		
+		assertTrue(muestra.getEstadoMuestra() instanceof EstadoMuestraVerificada);
+	}
+	
+	//METHODS TESTS
+	@Test
+	void puedeOpinarTest() {
+		
+		assertTrue(muestra.puedeOpinar(normal1));
+		
+		muestra.agregarOpinion(op1);
+		
+		assertFalse(muestra.puedeOpinar(normal1));
+		
+	}
+	
+	@Test
+	void agregarOpinionTest() {
+		assertTrue(muestra.getHistorialDeOpiniones().isEmpty());
+		
+		muestra.agregarOpinion(op2);
+		
+		assertTrue(muestra.getHistorialDeOpiniones().contains(op2));
+	}
+	
+	@Test
+	void esVerificadaTest() {
+		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
+		muestra.setEstadoMuestra(new EstadoMuestraVerificada());
+		assertTrue(muestra.getEstadoMuestra() instanceof EstadoMuestraVerificada);
+		
+		assertTrue(muestra.esVerificada());
+	} 
+	
+	@Test
+	void coincidenExpertosTest() {
+		muestra.agregarOpinion(op1); //que no es hecha por un experto -> TipoOpinion.VINCHUCA_SORDIDA
+		muestra.agregarOpinion(op5); //es experto pero solo es 1 experto que coincide -> TipoOpinion.CHINCHE_FOLIADA
+		
+		assertFalse(muestra.coincidenExpertos());
+		
+		muestra.agregarOpinion(op6); //ahora coinciden 2 expertos -> TipoOpinion.CHINCHE_FOLIADA
+		
+		assertTrue(muestra.coincidenExpertos());
+		
+	}
+	
+	//TEST COMPORTAMIENTO DE LOS ESTADOS DE LA MUESTRA
 	@Test
 	public void TestEstadoVerificacionMuestra() {
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
@@ -106,7 +266,7 @@ class MuestraTestCase {
 		muestra.agregarOpinion(op3);
 		
 		//
-		assertEquals(4, muestra.getHistorialDeOpiniones().size());
+		assertEquals(3, muestra.getHistorialDeOpiniones().size());
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
 		assertFalse(muestra.esVerificada());
 		assertFalse(muestra.coincidenExpertos());
@@ -129,7 +289,7 @@ class MuestraTestCase {
 		muestra.agregarOpinion(op4);
 		
 		//
-		assertEquals(4, muestra.getHistorialDeOpiniones().size());
+		assertEquals(3, muestra.getHistorialDeOpiniones().size());
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoMuestraVerificandose);
 		assertFalse(muestra.esVerificada());
 		assertFalse(muestra.coincidenExpertos());
@@ -159,7 +319,7 @@ class MuestraTestCase {
 		//
 		muestra.agregarOpinion(op5);
 		
-		assertEquals(6, muestra.getHistorialDeOpiniones().size());
+		assertEquals(5, muestra.getHistorialDeOpiniones().size());
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoMuestraVerificada);
 		assertTrue(muestra.esVerificada());
 		assertTrue(muestra.coincidenExpertos());
