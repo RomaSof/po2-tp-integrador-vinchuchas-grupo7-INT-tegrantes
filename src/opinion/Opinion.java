@@ -1,37 +1,23 @@
 package opinion;
-import java.util.Date;
+import java.time.LocalDate;
 
-import muestra.Muestra;
 import usuario.Usuario;
 
 
 public class Opinion {
 	private Usuario usuario;
 	private TipoOpinion tipoOpinion;
-	private Date fechaOpinion;
-	//private Muestra muestra;
-	//public Muestra getMuestra() {
-	//	return muestra;
-	//}
+	private LocalDate fechaOpinion;
 
 	private boolean esOpinionVerificada;
 	
-	//test en espa;ol
 	
-	public Opinion(Usuario usuario, TipoOpinion tipoOpinion, Date fechaOpinion) {
+	public Opinion(Usuario usuario, TipoOpinion tipoOpinion, LocalDate fechaOpinion) {
 	    this.usuario = usuario;
 	    this.tipoOpinion = tipoOpinion;
 	    this.fechaOpinion = fechaOpinion; // Usa la fecha proporcionada
 	    this.esOpinionVerificada = usuario.esExperto();
 	}
-	
-	
-	public void enviarOpinion(Muestra muestra) {
-	    if (!muestra.usuarioYaOpino(this.usuario)) {
-	        muestra.agregarOpinion(this);
-	        this.getUsuario().addOpinion(this);
-	    }
-	   }
 	
 	public Usuario getUsuario() {
 		return this.usuario;
@@ -45,7 +31,7 @@ public class Opinion {
 		return this.esOpinionVerificada;
 	}
 	
-	public Date getFechaOpinion() {
+	public LocalDate getFechaOpinion() {
 		return fechaOpinion;
 	}
 }
