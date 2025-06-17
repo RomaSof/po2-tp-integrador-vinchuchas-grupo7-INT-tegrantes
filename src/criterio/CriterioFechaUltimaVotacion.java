@@ -1,17 +1,14 @@
 package criterio;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
 
 import muestra.Muestra;
-import opinion.Opinion;
 
 public class CriterioFechaUltimaVotacion implements CriterioBusqueda{
 	private FiltroPorFecha filtroFecha;
-	private Date fechaAFiltrar;
+	private LocalDate fechaAFiltrar;
 	
-	public CriterioFechaUltimaVotacion(Date fechaAFiltrar, FiltroPorFecha filtroFecha) {
+	public CriterioFechaUltimaVotacion(LocalDate fechaAFiltrar, FiltroPorFecha filtroFecha) {
 		this.fechaAFiltrar = fechaAFiltrar;
 		this.filtroFecha = filtroFecha; 
 	}
@@ -20,13 +17,13 @@ public class CriterioFechaUltimaVotacion implements CriterioBusqueda{
 		return this.filtroFecha;
 	}
 	
-	public Date getFechaAFiltrar() {
+	public LocalDate getFechaAFiltrar() {
 		return this.fechaAFiltrar;
 	}
 	
 	@Override
 	public boolean cumple(Muestra muestra) {
-		Date fechaUltimaVotacion = muestra.getFechaUltimaVotacion();
+		LocalDate fechaUltimaVotacion = muestra.getFechaUltimaVotacion();
 		return this.getFiltroFecha().comparar(fechaUltimaVotacion, this.getFechaAFiltrar());
 	}
 }

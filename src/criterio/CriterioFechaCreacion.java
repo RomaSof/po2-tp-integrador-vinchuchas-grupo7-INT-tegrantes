@@ -1,13 +1,13 @@
 package criterio;
 
-import java.util.Date;
+import java.time.LocalDate;
 import muestra.Muestra;
 
 public class CriterioFechaCreacion implements CriterioBusqueda {
 	private FiltroPorFecha filtroFecha;
-	private Date fechaAFiltrar;
+	private LocalDate fechaAFiltrar;
 	
-	public CriterioFechaCreacion(Date fechaAFiltrar, FiltroPorFecha filtroFecha) {
+	public CriterioFechaCreacion(LocalDate fechaAFiltrar, FiltroPorFecha filtroFecha) {
 		this.fechaAFiltrar = fechaAFiltrar;
 		this.filtroFecha = filtroFecha;
 	}
@@ -16,7 +16,7 @@ public class CriterioFechaCreacion implements CriterioBusqueda {
 		return this.filtroFecha;
 	}
 	
-	public Date getFechaAFiltrar() {
+	public LocalDate getFechaAFiltrar() {
 		return this.fechaAFiltrar;
 	}
 	

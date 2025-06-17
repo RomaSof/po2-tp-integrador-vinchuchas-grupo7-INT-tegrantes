@@ -79,7 +79,7 @@ public class Usuario {
 	}
 	
 	//setters
-	protected void setEstado(EstadoUsuario nuevoEstado) {
+	public void setEstado(EstadoUsuario nuevoEstado) {
 		this.estadoUsuario = nuevoEstado;
 	}
 	

@@ -111,7 +111,7 @@ public class Muestra {
 	public LocalDate getFechaUltimaVotacion() {
 
 		List<Opinion> opiniones = this.getHistorialDeOpiniones();
-		LocalDate fechaMasReciente = opiniones.get(0).getFechaOpinion();
+		LocalDate fechaMasReciente = this.fechaCreacion; //opiniones.get(0).getFechaOpinion();
 	    
 	    for (Opinion opinion : opiniones) {
 	    	LocalDate fechaActual = opinion.getFechaOpinion();
@@ -143,7 +143,7 @@ public class Muestra {
 	}
 		
 	public void agregarOpinion(Opinion opinion) {
-			this.estado.agregarOpinion(this, opinion);
+			this.estado.agregarOpinion(this, opinion); 
 	} 
 	
 	protected void addOpinion(Opinion opinion) {
