@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,8 +38,7 @@ class MuestraTestCase {
 	public Usuario experto2;
 	public Usuario experto3;
 	
-	@SuppressWarnings("deprecation")
-	public Date date = new Date(3, 4, 2025);
+	LocalDate hoy = LocalDate.now();
 	
 	@BeforeEach
 	public void setUp() {
@@ -70,7 +69,7 @@ class MuestraTestCase {
 		op5 = mock(Opinion.class);
 		op6 = mock(Opinion.class);
 		//getTipoOpinion
-		when(op.getTipoEspecie()).thenReturn(TipoOpinion.IMAGEN_POCO_CLARA);
+		when(op.getTipoEspecie()).thenReturn(TipoOpinion.IMAGEN_POCO_CLARA); 
 		when(op1.getTipoEspecie()).thenReturn(TipoOpinion.VINCHUCA_SORDIDA);
 		when(op2.getTipoEspecie()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
 		when(op3.getTipoEspecie()).thenReturn(TipoOpinion.CHINCHE_FOLIADA);
@@ -94,7 +93,7 @@ class MuestraTestCase {
 		when(op5.getUsuario()).thenReturn(experto2);
 		when(op6.getUsuario()).thenReturn(experto3);
 		
-		muestra = new Muestra(user, date, "image", op);
+		muestra = new Muestra(user, hoy, null, "image", TipoOpinion.IMAGEN_POCO_CLARA);
 	}
 
 	@Test

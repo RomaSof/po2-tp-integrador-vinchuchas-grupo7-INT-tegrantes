@@ -11,7 +11,7 @@ public class Opinion {
 
 	private boolean esOpinionVerificada;
 	
-	
+	//constructor
 	public Opinion(Usuario usuario, TipoOpinion tipoOpinion, LocalDate fechaOpinion) {
 	    this.usuario = usuario;
 	    this.tipoOpinion = tipoOpinion;
@@ -19,6 +19,7 @@ public class Opinion {
 	    this.esOpinionVerificada = usuario.esExperto();
 	}
 	
+	//getters
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
@@ -27,11 +28,12 @@ public class Opinion {
 		return this.tipoOpinion;
 	}
 	
-	public boolean esOpinionVerificada() {
-		return this.esOpinionVerificada;
-	}
-	
 	public LocalDate getFechaOpinion() {
 		return fechaOpinion;
+	}
+	
+	//methods
+	public boolean esOpinionVerificada() {
+		return this.esOpinionVerificada;
 	}
 }

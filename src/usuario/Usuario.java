@@ -99,7 +99,7 @@ public class Usuario {
 	}
 	
 	
-	public void addOpinion(Opinion opinion) { 
+	protected void addOpinion(Opinion opinion) { 
 		opinionesEnviadas.add(opinion);
 	}
 	
