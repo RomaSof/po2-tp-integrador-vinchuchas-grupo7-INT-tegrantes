@@ -3,6 +3,7 @@ package muestra;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import opinion.*;
 
 public class Muestra {
     private Usuario usuario;
-	private LocalDate fechaCreacion;
+	private Date fechaCreacion;
 	private Ubicacion ubicacion;
 	private String imagenMuestra;
 	private TipoOpinion opinionInicial;
@@ -21,7 +22,7 @@ public class Muestra {
 	private List<Opinion> opiniones = new ArrayList<Opinion>();
 	
 	//constructor
-	public Muestra(Usuario user, LocalDate date, Ubicacion ubicacion, String image, TipoOpinion opinioninicial) {
+	public Muestra(Usuario user, Date date, Ubicacion ubicacion, String image, TipoOpinion opinioninicial) {
 		this.usuario = user;
 		this.fechaCreacion = date;
 		this.ubicacion = ubicacion; 
@@ -42,7 +43,7 @@ public class Muestra {
 		return this.ubicacion;
 	}
 	
-	public LocalDate getFechaCreacion() {
+	public Date getFechaCreacion() {
 		return this.fechaCreacion;
 	}
 	
@@ -108,13 +109,13 @@ public class Muestra {
 	}
 	
 	//devuelve la fehca de la ultima votacion sobre la muestra, si no hay ninguna, devuelve la fecha de creacion de la muestra
-	public LocalDate getFechaUltimaVotacion() {
+	public Date getFechaUltimaVotacion() {
 
 		List<Opinion> opiniones = this.getHistorialDeOpiniones();
-		LocalDate fechaMasReciente = this.fechaCreacion; //opiniones.get(0).getFechaOpinion();
+		Date fechaMasReciente = this.fechaCreacion; //opiniones.get(0).getFechaOpinion();
 	    
 	    for (Opinion opinion : opiniones) {
-	    	LocalDate fechaActual = opinion.getFechaOpinion();
+	    	Date fechaActual = opinion.getFechaOpinion();
 	        if (fechaActual.isAfter(fechaMasReciente)) {
 	            fechaMasReciente = fechaActual;
 	        }

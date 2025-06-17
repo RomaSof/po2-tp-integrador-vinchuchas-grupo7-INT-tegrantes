@@ -9,8 +9,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,7 +50,8 @@ class MuestraTestCase {
 	Ubicacion ubicacion;
 	
 	//date 
-	LocalDate hoy = LocalDate.now();
+	LocalDate localDate;
+	Date date;
 	
 	@BeforeEach
 	public void setUp() {
@@ -106,8 +109,12 @@ class MuestraTestCase {
 		//ubicacion 
 		ubicacion = mock(Ubicacion.class);
 		
+		//date
+		localDate = LocalDate.now();
+	    date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		
 		//sujeto de prueba muestra
-		muestra = new Muestra(user, hoy, ubicacion, "image Vinchukis", TipoOpinion.IMAGEN_POCO_CLARA);
+		muestra = new Muestra(user, date, ubicacion, "image Vinchukis", TipoOpinion.IMAGEN_POCO_CLARA);
 	}
 
 	//GETTERS TESTS
@@ -128,7 +135,7 @@ class MuestraTestCase {
 	
 	@Test
 	void getFechaCreacionTest() {
-		assertEquals(hoy, muestra.getFechaCreacion());
+		assertEquals(date, muestra.getFechaCreacion());
 	}
 	
 	@Test
@@ -195,12 +202,13 @@ class MuestraTestCase {
 	
 	@Test
 	void getFechaUltimaVotacionTest() {
-		LocalDate fecha = LocalDate.of(2020, 2, 2);
-		when(op1.getFechaOpinion()).thenReturn(fecha);
+		//LocalDate f = LocalDate.of(2020, 2, 2);
+		//Date fecha = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		when(op1.getFechaOpinion()).thenReturn(date);
 		
 		muestra.agregarOpinion(op1);
 		
-		assertEquals(fecha, muestra.getFechaUltimaVotacion());
+		assertEquals(date, muestra.getFechaUltimaVotacion());
 	}
 	
 	//SETTERS TESTS

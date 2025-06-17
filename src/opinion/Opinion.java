@@ -1,5 +1,6 @@
 package opinion;
 import java.time.LocalDate;
+import java.util.Date;
 
 import usuario.Usuario;
 
@@ -7,12 +8,12 @@ import usuario.Usuario;
 public class Opinion {
 	private Usuario usuario;
 	private TipoOpinion tipoOpinion;
-	private LocalDate fechaOpinion;
+	private Date fechaOpinion;
 
 	private boolean esOpinionVerificada;
 	
 	//constructor
-	public Opinion(Usuario usuario, TipoOpinion tipoOpinion, LocalDate fechaOpinion) {
+	public Opinion(Usuario usuario, TipoOpinion tipoOpinion, Date fechaOpinion) {
 	    this.usuario = usuario;
 	    this.tipoOpinion = tipoOpinion;
 	    this.fechaOpinion = fechaOpinion; // Usa la fecha proporcionada
@@ -28,7 +29,7 @@ public class Opinion {
 		return this.tipoOpinion;
 	}
 	
-	public LocalDate getFechaOpinion() {
+	public Date getFechaOpinion() {
 		return fechaOpinion;
 	}
 	
