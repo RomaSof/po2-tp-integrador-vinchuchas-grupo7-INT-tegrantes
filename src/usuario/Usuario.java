@@ -1,8 +1,9 @@
 package usuario;
 
 import java.time.LocalDate;
-//import java.time.ZoneId;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import muestra.Muestra;
@@ -47,10 +48,10 @@ public class Usuario {
 		int cantidadDeEnvios = 0;
 		for (Muestra muestra : muestrasEnviadas) {
             // Convertir Date a LocalDate
-            LocalDate fechaCreacion = muestra.getFechaCreacion();
-                //.toInstant() -> ya no son necesarios porque todo es LocalDate
-                //.atZone(ZoneId.systemDefault())
-                //.toLocalDate();
+            LocalDate fechaCreacion = muestra.getFechaCreacion()
+                .toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
             if (!fechaCreacion.isBefore(hace30Dias) && 
                     !fechaCreacion.isAfter(hoy)) {
                 cantidadDeEnvios++;
@@ -65,10 +66,10 @@ public class Usuario {
 		int cantidadDeRevisiones = 0;
         for (Opinion opinion : opinionesEnviadas) {
         	// Convertir Date a LocalDate
-            LocalDate fechaOpinion = opinion.getFechaOpinion();
-                    //.toInstant() -> ya no son necesarios porque todo es LocalDate
-                    //.atZone(ZoneId.systemDefault())
-                    //.toLocalDate();
+            LocalDate fechaOpinion = opinion.getFechaOpinion()
+                    .toInstant() 
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
                 
             if (!fechaOpinion.isBefore(hace30Dias) && 
                     !fechaOpinion.isAfter(hoy)) {
@@ -85,16 +86,18 @@ public class Usuario {
 	
 	//methods
 	public void enviarMuestra(Ubicacion ubicacion, String imagen, TipoOpinion tipo) { //no sé a qué se le envia la muestra
-		LocalDate hoy = LocalDate.now();
+		LocalDate localDate = LocalDate.now();
+		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		
-		Muestra muestra = new Muestra(this, hoy, ubicacion, imagen, tipo);
+		Muestra muestra = new Muestra(this, date, ubicacion, imagen, tipo);
 		
 		this.addMuestra(muestra);
 	} 
 	
 	public void opinar(Muestra muestra, TipoOpinion tipo) {
-		LocalDate hoy = LocalDate.now();
-		Opinion opinion = new Opinion(this, tipo, hoy);
+		LocalDate localDate = LocalDate.now();
+		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		Opinion opinion = new Opinion(this, tipo, date);
 		muestra.agregarOpinion(opinion);
 	}
 	

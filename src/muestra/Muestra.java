@@ -1,7 +1,5 @@
 package muestra;
 
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -116,11 +114,10 @@ public class Muestra {
 	    
 	    for (Opinion opinion : opiniones) {
 	    	Date fechaActual = opinion.getFechaOpinion();
-	        if (fechaActual.isAfter(fechaMasReciente)) {
+	        if (fechaActual.after(fechaMasReciente)) {
 	            fechaMasReciente = fechaActual;
 	        }
 	    }
-	    
 	    return this.opiniones.isEmpty() ? this.fechaCreacion : fechaMasReciente;
 	}
 	

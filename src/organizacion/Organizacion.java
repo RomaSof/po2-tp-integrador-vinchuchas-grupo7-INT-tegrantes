@@ -7,7 +7,7 @@ import muestra.Muestra;
 import ubicacion.Ubicacion;
 import usuario.Usuario;
 import zonaCobertura.ObservadorZona;
-import zonaCobertura.ZonaDeCobertura;
+import zonaCobertura.ZonaDeCobertura; 
 
 public class Organizacion implements ObservadorZona{
 	private TipoOrganicacion TipoOrganicacion;

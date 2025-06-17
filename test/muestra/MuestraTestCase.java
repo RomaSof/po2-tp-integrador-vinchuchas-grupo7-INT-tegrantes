@@ -202,8 +202,6 @@ class MuestraTestCase {
 	
 	@Test
 	void getFechaUltimaVotacionTest() {
-		//LocalDate f = LocalDate.of(2020, 2, 2);
-		//Date fecha = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		when(op1.getFechaOpinion()).thenReturn(date);
 		
 		muestra.agregarOpinion(op1);
