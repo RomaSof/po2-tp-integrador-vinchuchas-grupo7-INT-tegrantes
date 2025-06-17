@@ -58,7 +58,7 @@ class UsuarioTest {
 	}
 
 	// se deberia mockear para testear mejor
-	//@Test
+	@Test
 	void testCrearMuestra() {
 		assertTrue(muestra.getRecolectorMuestra().equals(usuario1));
 		assertEquals(muestra.getEspecie(), TipoOpinion.VINCHUCA_INFESTAN.getEspecie());
@@ -76,7 +76,7 @@ class UsuarioTest {
 	}
 	
 	// se deberia mockear para testear mejor
-	//@Test
+	@Test
 	void testEstadoUsuarioBasico() {
 		assertFalse(usuario2.esExperto());
 		opinion2 = new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA, localDate);
@@ -152,7 +152,7 @@ class UsuarioTest {
 	}
 	
 
-	//@Test
+	@Test
 	void testMuestraFueraDePeriodo30Dias() {
 	    Usuario usuarioTest = new Usuario("UsuarioMuestraTest");
 	    

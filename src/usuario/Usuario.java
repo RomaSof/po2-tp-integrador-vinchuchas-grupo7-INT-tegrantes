@@ -89,6 +89,7 @@ public class Usuario {
 		LocalDate localDate = LocalDate.now();
 		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		
+		
 		Muestra muestra = new Muestra(this, date, ubicacion, imagen, tipo);
 		
 		this.addMuestra(muestra);

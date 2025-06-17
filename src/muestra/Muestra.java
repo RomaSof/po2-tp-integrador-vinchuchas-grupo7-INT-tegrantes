@@ -109,16 +109,16 @@ public class Muestra {
 	//devuelve la fehca de la ultima votacion sobre la muestra, si no hay ninguna, devuelve la fecha de creacion de la muestra
 	public Date getFechaUltimaVotacion() {
 
-		List<Opinion> opiniones = this.getHistorialDeOpiniones();
+		//List<Opinion> opiniones = this.getHistorialDeOpiniones();
 		Date fechaMasReciente = this.fechaCreacion; //opiniones.get(0).getFechaOpinion();
 	    
 	    for (Opinion opinion : opiniones) {
 	    	Date fechaActual = opinion.getFechaOpinion();
 	        if (fechaActual.after(fechaMasReciente)) {
-	            fechaMasReciente = fechaActual;
+	            fechaMasReciente = fechaActual; 
 	        }
 	    }
-	    return this.opiniones.isEmpty() ? this.fechaCreacion : fechaMasReciente;
+	    return fechaMasReciente;  //this.opiniones.isEmpty() ? this.fechaCreacion : fechaMasReciente;
 	}
 	
 	//setters

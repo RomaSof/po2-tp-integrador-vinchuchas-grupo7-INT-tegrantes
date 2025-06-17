@@ -1,5 +1,4 @@
 package opinion;
-import java.time.LocalDate;
 import java.util.Date;
 
 import usuario.Usuario;
@@ -37,4 +36,6 @@ public class Opinion {
 	public boolean esOpinionVerificada() {
 		return this.esOpinionVerificada;
 	}
+	
+	
 }

@@ -201,12 +201,29 @@ class MuestraTestCase {
 	}
 	
 	@Test
-	void getFechaUltimaVotacionTest() {
-		when(op1.getFechaOpinion()).thenReturn(date);
+	void getFechaUltimaVotacionTest() { 
+		//de una muestra sin opiniones es igual a la fecha de creacions
+		assertTrue(muestra.getHistorialDeOpiniones().isEmpty()); 
+		assertEquals(date, muestra.getFechaUltimaVotacion());
+		
+		//setteo 2 fechas diferentes de agegar una opinion a la muestra
+		Date date1;
+		Date date2;
+		
+		LocalDate localDate = LocalDate.parse("2026-12-03"); // <-- yyyy-MM-dd
+	    date1 = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	    
+	    LocalDate localDate2 = LocalDate.parse("2026-12-05"); // <-- yyyy-MM-dd
+	    date2 = Date.from(localDate2.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		
+		when(op1.getFechaOpinion()).thenReturn(date1); //esta fecha esta antes
+		when(op2.getFechaOpinion()).thenReturn(date2); //esta fecha esta después, utlima fecha
 		
 		muestra.agregarOpinion(op1);
+		muestra.agregarOpinion(op2); //esta tiene la ultima fecha
 		
-		assertEquals(date, muestra.getFechaUltimaVotacion());
+		assertEquals(date2, muestra.getFechaUltimaVotacion()); 
+		
 	}
 	
 	//SETTERS TESTS
