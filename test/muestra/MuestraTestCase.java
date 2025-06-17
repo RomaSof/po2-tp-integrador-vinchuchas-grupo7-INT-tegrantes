@@ -161,6 +161,7 @@ class MuestraTestCase {
 	void getOpinionesDeExpertosTest() {
 		assertTrue(muestra.getHistorialDeOpiniones().isEmpty());
 		
+		//agrega solo 2 opiniones de expertos
 		muestra.agregarOpinion(op1); //opinion comun
 		muestra.agregarOpinion(op2); //opinion comun
 		muestra.agregarOpinion(op4); //opinion de experto
@@ -260,17 +261,25 @@ class MuestraTestCase {
 	public void TestEstadoVerificacionMuestra() {
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
 		
-		//
-		muestra.agregarOpinion(op1);
-		muestra.agregarOpinion(op2);
-		muestra.agregarOpinion(op3);
+		//agrega opiniones de usuarios comunes a la mustra
 		
-		//
+		muestra.agregarOpinion(op1); // -> TipoOpinion.VINCHUCA_SORDIDA
+		muestra.agregarOpinion(op2); // -> TipoOpinion.CHINCHE_FOLIADA
+		muestra.agregarOpinion(op3); // -> TipoOpinion.CHINCHE_FOLIADA
+		
+		//se agregaron las opiniones de los usuarios comunes porque se puede en el estado inicial de la muestra
+		
 		assertEquals(3, muestra.getHistorialDeOpiniones().size());
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
+		
+		//la muestra no es verificada porque todavía no votaron expertos que coincidan
+		
 		assertFalse(muestra.esVerificada());
 		assertFalse(muestra.coincidenExpertos());
 		assertTrue(muestra.getOpinionesDeExpertos().isEmpty());
+		
+		//la especie es la pupular entre las opiniones totales en este estado de muestra
+		
 		assertEquals(TipoOpinion.CHINCHE_FOLIADA.getEspecie(), muestra.getEspecie());
 		
 	}
@@ -279,21 +288,23 @@ class MuestraTestCase {
 	public void TestEstadoMuestraVerificandose() {
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
 		
-		//
+		//agrega opiniones de usuarios comunes porque el estado inicial lo permite
 		muestra.agregarOpinion(op1);
 		muestra.agregarOpinion(op2);
 		
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
 		
-		//
+		//agrega un usuario esperto por lo que cambia el estado
 		muestra.agregarOpinion(op4);
 		
-		//
+		//cambia el estado, hay 1 muestra de experto 
 		assertEquals(3, muestra.getHistorialDeOpiniones().size());
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoMuestraVerificandose);
 		assertFalse(muestra.esVerificada());
 		assertFalse(muestra.coincidenExpertos());
 		assertEquals(1, muestra.getOpinionesDeExpertos().size());
+		
+		//como el estado ahora es Verificandose la especie es no definida
 		assertEquals(TipoOpinion.NO_DEFINIDA.getEspecie(), muestra.getEspecie());
 		
 	}
@@ -301,30 +312,46 @@ class MuestraTestCase {
 	@Test
 	public void TestEstadoMuestraVerificada() {
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
-		muestra.agregarOpinion(op1);
-		muestra.agregarOpinion(op2);
-		muestra.agregarOpinion(op4);
+		//agrega opiniones comunes, es estado inicial
+		
+		muestra.agregarOpinion(op1); // -> TipoOpinion.VINCHUCA_SORDIDA
+		muestra.agregarOpinion(op2); // -> -> TipoOpinion.CHINCHE_FOLIADA
+		
+		
+		//agrega una opinion experta, cambia de estado
+		
+		muestra.agregarOpinion(op4); // -> TipoOpinion.VINCHUCA_SORDIDA
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
 		assertEquals(TipoOpinion.NO_DEFINIDA.getEspecie(), muestra.getEspecie());
 		
-		//
-		muestra.agregarOpinion(op5);
+		//agrega una segunda opinion experta y cambia de estado
+		
+		muestra.agregarOpinion(op5); // -> TipoOpinion.CHINCHE_FOLIADA
 		
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
 		assertFalse(muestra.esVerificada());
 		assertFalse(muestra.coincidenExpertos());
 		assertEquals(2, muestra.getOpinionesDeExpertos().size());
+		
+		//estado verificandose
 		assertEquals(TipoOpinion.NO_DEFINIDA.getEspecie(), muestra.getEspecie());
 		
-		//
-		muestra.agregarOpinion(op5);
+		//agrega una segunda opinion experta y coinciden 2 expertos con esa opinion
+		
+		muestra.agregarOpinion(op6); // ->TipoOpinion.CHINCHE_FOLIADA
 		
 		assertEquals(5, muestra.getHistorialDeOpiniones().size());
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoMuestraVerificada);
+		
+		//ahora es una muestra verificada porque coincidieron 2 expertos y ya no admite más opiniones
+		
 		assertTrue(muestra.esVerificada());
 		assertTrue(muestra.coincidenExpertos());
 		assertEquals(3, muestra.getOpinionesDeExpertos().size());
 		assertEquals(TipoOpinion.CHINCHE_FOLIADA.getEspecie(), muestra.getEspecie());
+		
+		muestra.agregarOpinion(op3); //no cambia el tamaño de opiniones porque no se agregan más al estar verificada
+		assertEquals(5, muestra.getHistorialDeOpiniones().size());
 	}
   
 }
