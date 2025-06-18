@@ -147,7 +147,7 @@ class UsuarioTest {
 	    assertEquals(1, usuarioTest.getOpiniones().size()); // Solo la opinión antigua
 	    assertEquals(0, usuarioTest.getCantidadDeRevisionesUltimos30Dias());
 	}
-	/*
+	
 	
 	@Test
 	void testMuestraFueraDePeriodo30Dias() {
@@ -156,21 +156,13 @@ class UsuarioTest {
 	    LocalDate fechaAntigua = LocalDate.now().minusDays(35);
 	    Date fechaMuestraAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	    
-	    new Muestra(
-	        usuarioTest,
-	        fechaAntigua,
-	        ubicacion,
-	        "imagen_antigua",
-	        vinchuca
-	        //fechaMuestraAntigua, 
-	        
-	        //new Opinion(usuarioTest, TipoOpinion.CHINCHE_FOLIADA, fechaMuestraAntigua)
-	    );
+	    Muestra muestraAntigua = new Muestra(usuarioTest, fechaMuestraAntigua, ubicacion, "imagen_antigua",	 vinchuca);
+	    usuarioTest.addMuestra(muestraAntigua);
 	    
 	    assertEquals(1, usuarioTest.getMuestras().size()); // Ahora pasará
 	    assertEquals(0, usuarioTest.getCantidadDeEnviosUltimos30Dias());
 	}
-	
+	/*
 	@Test
 	void testOpinionVerificadaALahoraDeOpinarPeroDespuesElUsuarioPasaAEstadoBasico() {
 	    // 1. Configurar usuario como experto inicialmente
