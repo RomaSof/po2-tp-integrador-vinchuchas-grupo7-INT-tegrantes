@@ -96,4 +96,10 @@ class OpinionTest {
 		assertFalse(op3.esOpinionVerificada());
 	}
 	
+	//test n°6
+	@Test
+	void testearGetEspecie() {
+		Opinion opinion = usuario2.opinar(muestra, TipoOpinion.NO_DEFINIDA);
+		assertTrue(opinion.getTipoEspecie().equals(TipoOpinion.NO_DEFINIDA));
+	}
 }
