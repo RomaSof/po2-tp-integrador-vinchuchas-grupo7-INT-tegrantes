@@ -53,7 +53,8 @@ class UsuarioTest {
 	    
 		
 	}
-
+	
+	//test n°1
 	// se deberia mockear para testear mejor
 	@Test
 	void testCrearMuestra() {
@@ -65,14 +66,14 @@ class UsuarioTest {
 	    assertEquals(1, usuario1.getCantidadDeEnviosUltimos30Dias());
 	    
 	}
-	
+	//test n°2
 	@Test
 	void testGetterNombre() {
 		assertTrue(usuario1.getNombre().equals("Juan"));
 	}
 	
 	
-	
+	//test n°3
 	// se deberia mockear para testear mejor
 	@Test
 	void testEstadoUsuarioBasico() {
@@ -85,7 +86,7 @@ class UsuarioTest {
 		usuario2.actualizarEstado();// no debe actualizar el estado porque no cumple con requisitos
 		assertFalse(usuario2.esExperto());
 	}
-	
+	//test n°4
 	@Test
 	void testPasajeDeUsuarioBasicoAExperto() {
 		assertFalse(usuario3.esExperto()); //inicia como usuario basico
@@ -96,7 +97,7 @@ class UsuarioTest {
 		usuario3.actualizarEstado();
 		assertTrue(usuario3.esExperto());// se actualiza su estado a experto ya que cumple con los requisitos (10 envios, 20 revisiones)
 	}
-	
+	//test n°5
 	@Test
 	void testPasajeDeUsuarioExpertoABasico() {
 		when(usuario3.getCantidadDeEnviosUltimos30Dias()).thenReturn(50); //
@@ -108,7 +109,7 @@ class UsuarioTest {
 		usuario3.actualizarEstado();
 		assertFalse(usuario3.esExperto());// estado actualizado a basico ya que no cumple con los requisitos para seguir siendo experto
 	}
-	
+	//test n°6
 	@Test
 	void testActualizarEstadoDeExpertoQueSigueCumpliendoLosRequisitos() {
 		when(usuario3.getCantidadDeEnviosUltimos30Dias()).thenReturn(50); //
@@ -121,7 +122,7 @@ class UsuarioTest {
 		assertTrue(usuario3.esExperto());// sigue siendo experto aunque haya bajado la cantidad de revisiones y envios
 		
 	}
-	
+	//test n°7
 	@Test
 	void testearEstadoDeUsuarioVerificado() {
 		assertTrue( usuario4.esExperto() ); //es expertoDesdeElPrincipio
@@ -132,7 +133,7 @@ class UsuarioTest {
 		assertTrue(usuario4.esExperto());
 		assertFalse(usuario4.getEstadoUsuario().verificarCambioDeEstado(usuario4)); // siempre devuelve false
 	}
-	
+	//test n°8
 	@Test
 	void testOpinionFueraDePeriodo30Dias() {
 	    // Crear un usuario NUEVO para este test (evita contaminación del setup)
@@ -148,7 +149,7 @@ class UsuarioTest {
 	    assertEquals(0, usuarioTest.getCantidadDeRevisionesUltimos30Dias());
 	}
 	
-	
+	//test n°9
 	@Test
 	void testMuestraFueraDePeriodo30Dias() {
 	    Usuario usuarioTest = new Usuario("UsuarioMuestraTest");
@@ -162,7 +163,7 @@ class UsuarioTest {
 	    assertEquals(1, usuarioTest.getMuestras().size()); // Ahora pasará
 	    assertEquals(0, usuarioTest.getCantidadDeEnviosUltimos30Dias());
 	}
-	/*
+	//test n°10
 	@Test
 	void testOpinionVerificadaALahoraDeOpinarPeroDespuesElUsuarioPasaAEstadoBasico() {
 	    // 1. Configurar usuario como experto inicialmente
@@ -173,8 +174,9 @@ class UsuarioTest {
 	    // 2. Crear opinión (debería ser verificada automáticamente por ser experto)
 	    
 	    LocalDate now = LocalDate.now();
+	    Date ahora = Date.from(now.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	    
-	    Opinion opinion = new Opinion(usuarioExperto, TipoOpinion.VINCHUCA_INFESTAN, now);
+	    Opinion opinion = new Opinion(usuarioExperto, TipoOpinion.VINCHUCA_INFESTAN, ahora);
 	    assertTrue(opinion.esOpinionVerificada());
 	    
 	    // 3. Cambiar el usuario a básico (ya que no cumple requisitos)
@@ -186,9 +188,8 @@ class UsuarioTest {
 	        "La opinión debe mantenerse verificada aunque el usuario ya no sea experto");
 	    
 	    // 5. Verificación adicional: crear nueva opinión (ahora debería ser no verificada)
-	    Opinion nuevaOpinion = new Opinion(usuarioExperto, TipoOpinion.CHINCHE_FOLIADA, now);
+	    Opinion nuevaOpinion = new Opinion(usuarioExperto, TipoOpinion.CHINCHE_FOLIADA, ahora);
 	    assertFalse(nuevaOpinion.esOpinionVerificada(),
 	        "Las nuevas opiniones no deberían ser verificadas si el usuario es básico");
 	}
-	*/
 }
