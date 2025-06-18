@@ -132,24 +132,23 @@ class UsuarioTest {
 		assertTrue(usuario4.esExperto());
 		assertFalse(usuario4.getEstadoUsuario().verificarCambioDeEstado(usuario4)); // siempre devuelve false
 	}
-	/*
+	
 	@Test
 	void testOpinionFueraDePeriodo30Dias() {
 	    // Crear un usuario NUEVO para este test (evita contaminación del setup)
 	    Usuario usuarioTest = new Usuario("UsuarioTest");
 	    
 	    LocalDate fechaAntigua = LocalDate.now().minusDays(31);
-	    //Date fechaOpinionAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	    Date fechaOpinionAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	    
-	    Opinion opinionAntigua = new Opinion(usuarioTest, TipoOpinion.VINCHUCA_INFESTAN, fechaAntigua);
-	    
+	    Opinion opinionAntigua = new Opinion(usuarioTest, TipoOpinion.VINCHUCA_INFESTAN, fechaOpinionAntigua);// TipoOpinion.VINCHUCA_INFESTAN, fechaAntigua);
 	    usuarioTest.addOpinion(opinionAntigua);
 	    
 	    assertEquals(1, usuarioTest.getOpiniones().size()); // Solo la opinión antigua
 	    assertEquals(0, usuarioTest.getCantidadDeRevisionesUltimos30Dias());
 	}
+	/*
 	
-
 	@Test
 	void testMuestraFueraDePeriodo30Dias() {
 	    Usuario usuarioTest = new Usuario("UsuarioMuestraTest");
