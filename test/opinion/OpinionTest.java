@@ -49,18 +49,18 @@ class OpinionTest {
 		muestra.agregarOpinion(op2);
 		assertEquals(muestra.getHistorialDeOpiniones().size(), 1);
 		
-	}/*
+	}
 	//test n°3
 	@Test
 	void testUsuarioNoPuedeEnviar2OpinionesAUnaMuestra() {
 		Usuario usuario2 = Mockito.spy(new Usuario("Raul"));
 		Opinion op2 = Mockito.spy(new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA , new Date()));
-		op2.enviarOpinion(muestra); // envio la opinion
-		assertEquals(muestra.getHistorialDeOpiniones().size(), 2);
+		muestra.agregarOpinion(op2); // envio la opinion
+		assertEquals(muestra.getHistorialDeOpiniones().size(), 1);
 		Opinion op3 = Mockito.spy(new Opinion(usuario2, TipoOpinion.CHINCHE_PHTIA, new Date()));
-		op3.enviarOpinion(muestra);
-		assertEquals(muestra.getHistorialDeOpiniones().size(), 2);
-	}
+		muestra.agregarOpinion(op3);
+		assertEquals(muestra.getHistorialDeOpiniones().size(), 1);
+	}/*
 	//test n°4
 	@Test
 	void testUsuarioEnviaOpionesAMasDeUnaMuestra() {
