@@ -85,7 +85,8 @@ public class Usuario {
 	}
 	
 	//methods
-	public void enviarMuestra(Ubicacion ubicacion, String imagen, TipoOpinion tipo) { //no sé a qué se le envia la muestra
+	// en lugar de ser void lo pase a Muestra asi se puede asignar a una variable
+	public Muestra enviarMuestra(Ubicacion ubicacion, String imagen, TipoOpinion tipo) { //no sé a qué se le envia la muestra
 		LocalDate localDate = LocalDate.now();
 		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		
@@ -93,13 +94,20 @@ public class Usuario {
 		Muestra muestra = new Muestra(this, date, ubicacion, imagen, tipo);
 		
 		this.addMuestra(muestra);
+		
+		return muestra;
 	} 
 	
-	public void opinar(Muestra muestra, TipoOpinion tipo) {
+	//le agrego el return de opinion
+	//para poder crear una opinion
+	//y que se guarde la opinion en opinionEnviadas
+	public Opinion opinar(Muestra muestra, TipoOpinion tipo) {
 		LocalDate localDate = LocalDate.now();
 		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		Opinion opinion = new Opinion(this, tipo, date);
 		muestra.agregarOpinion(opinion);
+		this.addOpinion(opinion);
+		return opinion;
 	}
 	
 	
