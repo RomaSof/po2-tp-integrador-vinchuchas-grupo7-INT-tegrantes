@@ -148,5 +148,20 @@ public void seup() {
 		assertTrue(zona.getMuestrasReportadas().contains(m3));
 	}
 	
+	@Test
+	void testMuestraEstaDentroDeLaZona() {
+	    // Configurar ubicaciones para los mocks existentes
+	    when(m1.getUbicacion()).thenReturn(u2); // u2 está dentro (a ~1.5km)
+	    when(m3.getUbicacion()).thenReturn(u3); // u3 está fuera (a ~33km)
+	    
+	    // Verificaciones
+	    assertTrue(zona.estaDentroDeLaZona(m1)); // m1 debería estar dentro
+	    assertFalse(zona.estaDentroDeLaZona(m3)); // m3 debería estar fuera
+	    
+	    // Verificar que se llamó a getUbicacion()
+	    verify(m1).getUbicacion();
+	    verify(m3).getUbicacion();
+	}
+	
 
 }
