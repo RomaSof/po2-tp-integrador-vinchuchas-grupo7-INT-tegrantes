@@ -139,9 +139,11 @@ public class Muestra {
 	    }
 	    return true;
 	}
-		
+	//valido el agregar la opinion de un usuario y que no se repitan	
 	public void agregarOpinion(Opinion opinion) {
-			this.estado.agregarOpinion(this, opinion); 
+		if(this.puedeOpinar (opinion.getUsuario())) {
+			this.estado.agregarOpinion(this, opinion);
+		}
 	} 
 	
 	protected void addOpinion(Opinion opinion) {
