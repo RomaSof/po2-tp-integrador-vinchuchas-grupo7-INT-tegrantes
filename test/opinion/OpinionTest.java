@@ -17,6 +17,7 @@ import usuario.UsuarioVerificado;
 
 class OpinionTest {
 	private Usuario usuario;
+	private Usuario usuario2;
 	private Date date;
 	private Ubicacion ubicacion;
 	private LocalDate localDate;
@@ -30,6 +31,7 @@ class OpinionTest {
 		    
 		    usuario = Mockito.spy(new Usuario("Jose"));
 		    muestra = Mockito.spy( usuario.enviarMuestra( ubicacion, "imagen.jpg" , TipoOpinion.VINCHUCA_SORDIDA));
+		    usuario2 = Mockito.spy(new UsuarioVerificado("Pepe"));
 		    
 	    
 	}
@@ -83,14 +85,15 @@ class OpinionTest {
 	    assertEquals(usuario2.getOpiniones().size(), 2);
 	    assertEquals(usuario2.getMuestras().size(), 0);
 		
-	}/*
+	}
 	//test n°5
 	@Test
 	void testearSiEsOpinionVerificada() {
-		assertFalse(opinion.esOpinionVerificada());
-		Usuario usuario2 = Mockito.spy(new UsuarioVerificado("Juan"));
-		Opinion op2 = new Opinion(usuario2, TipoOpinion.VINCHUCA_SORDIDA, new Date());
+		Opinion op2 = usuario2.opinar(muestra, TipoOpinion.VINCHUCA_GUASAYANA);
 		assertTrue(op2.esOpinionVerificada());
+		Usuario usuario2 = Mockito.spy(new Usuario("Juan"));
+		Opinion op3 = usuario2.opinar(muestra, TipoOpinion.VINCHUCA_SORDIDA);
+		assertFalse(op3.esOpinionVerificada());
 	}
-	*/
+	
 }
