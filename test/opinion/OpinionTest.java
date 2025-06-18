@@ -60,32 +60,30 @@ class OpinionTest {
 		Opinion op3 = Mockito.spy(new Opinion(usuario2, TipoOpinion.CHINCHE_PHTIA, new Date()));
 		muestra.agregarOpinion(op3);
 		assertEquals(muestra.getHistorialDeOpiniones().size(), 1);
-	}/*
+	}
 	//test n°4
 	@Test
 	void testUsuarioEnviaOpionesAMasDeUnaMuestra() {
 		Usuario usuario2 = Mockito.spy(new Usuario("Raul"));
-		Opinion op2 = Mockito.spy(new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA , new Date()));
-		op2.enviarOpinion(muestra); // envio la opinion
-		assertEquals(muestra.getHistorialDeOpiniones().size(), 2);
+		usuario2.opinar(muestra, TipoOpinion.CHINCHE_FOLIADA);
+		assertEquals(muestra.getHistorialDeOpiniones().size(), 1);
 		
-		// muestra 2
-	    Usuario usuario3 = Mockito.spy(new Usuario("Juan"));
-	    Opinion opinionUser3 = Mockito.spy(new Opinion(usuario3, TipoOpinion.VINCHUCA_GUASAYANA, new Date()));
-	    Muestra muestra2 = Mockito.spy(new Muestra(usuario3, new Date(), "imagen.jpg" , opinionUser3));
+	    // muestra 2
+		Usuario usuario3 = Mockito.spy(new Usuario("Juan"));
+		Muestra muestra2 = Mockito.spy( usuario3.enviarMuestra( ubicacion, "imagen.jpg" , TipoOpinion.VINCHUCA_GUASAYANA));
 	    
-	    assertEquals(muestra2.getHistorialDeOpiniones().size() , 1);
+	    assertEquals(muestra2.getHistorialDeOpiniones().size() , 0);
 	    
-	    Opinion op3User2 = Mockito.spy(new Opinion(usuario2, TipoOpinion.VINCHUCA_GUASAYANA, new Date()));
-	    op3User2.enviarOpinion(muestra2);
+	    usuario2.opinar(muestra2 , TipoOpinion.VINCHUCA_GUASAYANA);
+	   
 	    
-	    assertEquals(muestra2.getHistorialDeOpiniones().size(), 2);
+	    assertEquals(muestra2.getHistorialDeOpiniones().size(), 1);
 	    assertEquals(usuario2.getCantidadDeRevisionesUltimos30Dias() , 2);
 	    assertEquals(usuario2.getCantidadDeEnviosUltimos30Dias() , 0);
 	    assertEquals(usuario2.getOpiniones().size(), 2);
 	    assertEquals(usuario2.getMuestras().size(), 0);
 		
-	}
+	}/*
 	//test n°5
 	@Test
 	void testearSiEsOpinionVerificada() {
