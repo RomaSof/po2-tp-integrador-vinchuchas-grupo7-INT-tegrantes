@@ -1,4 +1,5 @@
 package muestra;
+import avisoOrganizaciones.ObservadorMuestra;
 import opinion.*;
 
 public class EstadoMuestraVerificada extends EstadoVerificacionMuestra{
@@ -14,6 +15,11 @@ public class EstadoMuestraVerificada extends EstadoVerificacionMuestra{
 	@Override
 	public boolean esVerificada() {
 		return true;
+	}
+	
+	@Override
+	public void notify(Muestra muestra, ObservadorMuestra obsMuestra) {
+		obsMuestra.notificarMuestraValidada(muestra);
 	}
 	
 }

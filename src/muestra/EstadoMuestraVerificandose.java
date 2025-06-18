@@ -1,4 +1,5 @@
 package muestra;
+import avisoOrganizaciones.ObservadorMuestra;
 import opinion.*;
 public class EstadoMuestraVerificandose extends EstadoVerificacionMuestra{
 	
@@ -15,7 +16,7 @@ public class EstadoMuestraVerificandose extends EstadoVerificacionMuestra{
 	//cambia el estado cuando un experto opina
 	protected void cambiarDeEstadoSiPosible(Muestra muestra) {
 		if(muestra.coincidenExpertos()) {
-			muestra.setEstadoMuestra(new EstadoMuestraVerificada()); 
+			muestra.setEstadoMuestra(new EstadoMuestraVerificada());
 		}
 	}
 
@@ -23,5 +24,10 @@ public class EstadoMuestraVerificandose extends EstadoVerificacionMuestra{
 	public TipoOpinion getResultadoActual(Muestra muestra) {
 		return TipoOpinion.NO_DEFINIDA;  
 	}
-
+	
+	@Override
+	public void notify(Muestra muestra, ObservadorMuestra obsMuestra) {
+		// se mantiene vacio! no debe notificar nada
+	}
+	
 }
