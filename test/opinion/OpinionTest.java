@@ -11,27 +11,27 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import muestra.Muestra;
+import ubicacion.Ubicacion;
 import usuario.Usuario;
 import usuario.UsuarioVerificado;
 
 class OpinionTest {
 	private Usuario usuario;
 	private Date date;
+	private Ubicacion ubicacion;
 	private LocalDate localDate;
 	private Opinion opinion;
 	private Muestra muestra;
 	
 	@BeforeEach
 	public void setup() {
-	    localDate = LocalDate.now();
-	    date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-	    
-	    usuario = Mockito.spy(new Usuario("Jose"));
-	    opinion = Mockito.spy(new Opinion(usuario, TipoOpinion.VINCHUCA_SORDIDA, new Date()));
-	    muestra = Mockito.spy(new Muestra(usuario, new Date(), "imagen.jpg" , opinion));
-	    opinion.enviarOpinion(muestra);
-	    
-	    
+		 localDate = LocalDate.now();
+		    date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		    
+		    usuario = Mockito.spy(new Usuario("Jose"));
+		    opinion = Mockito.spy(new Opinion(usuario, TipoOpinion.VINCHUCA_SORDIDA, new Date()));
+		    muestra = Mockito.spy(new Muestra(usuario, new Date(), ubicacion, "imagen.jpg" , TipoOpinion.VINCHUCA_SORDIDA));
+		    opinion.enviarOpinion(muestra);
 	    
 	}
 	

@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import muestra.Muestra;
 import opinion.Opinion;
 import opinion.TipoOpinion;
+import ubicacion.Ubicacion;
 import usuarioEstado.EstadoUsuarioExperto;
 
 
@@ -28,6 +29,7 @@ class UsuarioTest {
 	private Date date;
 	private LocalDate localDate;
 	private TipoOpinion vinchuca;
+	private Ubicacion ubicacion;
 
 	@BeforeEach
 	public void setup() {
@@ -35,9 +37,10 @@ class UsuarioTest {
 		//date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		localDate = LocalDate.now();
 		date = new Date();
-	    vinchuca = TipoOpinion.VINCHUCA_INFESTAN;
+	    vinchuca = TipoOpinion.VINCHUCA_INFESTAN; 
 		usuario1 = new Usuario("Juan");
 		usuario2 = new Usuario("Pepe");
+		ubicacion = mock(Ubicacion.class);
 		
 		//instancia de un mock usuario llamado Jose(usuario basico)
 		
@@ -47,9 +50,9 @@ class UsuarioTest {
 		
 		usuario4 = Mockito.spy(new UsuarioVerificado("Alberto"));
 	    
-	    opinion = new Opinion(usuario1, vinchuca , date);
+	    opinion = new Opinion(usuario1, vinchuca , localDate);
 	   
-	    muestra = new Muestra(usuario1, date, "image", opinion);
+	    muestra = new Muestra(usuario1, localDate , ubicacion, "image", vinchuca);
 	    
 		
 	}
@@ -76,8 +79,9 @@ class UsuarioTest {
 	@Test
 	void testEstadoUsuarioBasico() {
 		assertFalse(usuario2.esExperto());
-		opinion2 = new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA, date);
-		opinion2.enviarOpinion(muestra);
+		opinion2 = new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA, localDate);
+		usuario2.opinar(muestra, vinchuca);
+		//opinion2.enviarOpinion(muestra);
 		assertEquals(usuario2.getOpiniones().size() , (1));
 		assertEquals(muestra.getHistorialDeOpiniones().size() , (2)); // se agregó correctamente la opinion.
 		usuario2.actualizarEstado();// no debe actualizar el estado porque no cumple con requisitos
@@ -137,9 +141,9 @@ class UsuarioTest {
 	    Usuario usuarioTest = new Usuario("UsuarioTest");
 	    
 	    LocalDate fechaAntigua = LocalDate.now().minusDays(31);
-	    Date fechaOpinionAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	    //Date fechaOpinionAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	    
-	    Opinion opinionAntigua = new Opinion(usuarioTest, TipoOpinion.VINCHUCA_INFESTAN, fechaOpinionAntigua);
+	    Opinion opinionAntigua = new Opinion(usuarioTest, TipoOpinion.VINCHUCA_INFESTAN, fechaAntigua);
 	    
 	    usuarioTest.addOpinion(opinionAntigua);
 	    
@@ -156,10 +160,14 @@ class UsuarioTest {
 	    Date fechaMuestraAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	    
 	    new Muestra(
-	        usuarioTest, 
-	        fechaMuestraAntigua, 
-	        "imagen_antigua", 
-	        new Opinion(usuarioTest, TipoOpinion.CHINCHE_FOLIADA, fechaMuestraAntigua)
+	        usuarioTest,
+	        fechaAntigua,
+	        ubicacion,
+	        "imagen_antigua",
+	        vinchuca
+	        //fechaMuestraAntigua, 
+	        
+	        //new Opinion(usuarioTest, TipoOpinion.CHINCHE_FOLIADA, fechaMuestraAntigua)
 	    );
 	    
 	    assertEquals(1, usuarioTest.getMuestras().size()); // Ahora pasará
@@ -174,7 +182,10 @@ class UsuarioTest {
 	    assertTrue(usuarioExperto.esExperto());
 	    
 	    // 2. Crear opinión (debería ser verificada automáticamente por ser experto)
-	    Opinion opinion = new Opinion(usuarioExperto, TipoOpinion.VINCHUCA_INFESTAN, new Date());
+	    
+	    LocalDate now = LocalDate.now();
+	    
+	    Opinion opinion = new Opinion(usuarioExperto, TipoOpinion.VINCHUCA_INFESTAN, now);
 	    assertTrue(opinion.esOpinionVerificada());
 	    
 	    // 3. Cambiar el usuario a básico (ya que no cumple requisitos)
@@ -186,7 +197,7 @@ class UsuarioTest {
 	        "La opinión debe mantenerse verificada aunque el usuario ya no sea experto");
 	    
 	    // 5. Verificación adicional: crear nueva opinión (ahora debería ser no verificada)
-	    Opinion nuevaOpinion = new Opinion(usuarioExperto, TipoOpinion.CHINCHE_FOLIADA, new Date());
+	    Opinion nuevaOpinion = new Opinion(usuarioExperto, TipoOpinion.CHINCHE_FOLIADA, now);
 	    assertFalse(nuevaOpinion.esOpinionVerificada(),
 	        "Las nuevas opiniones no deberían ser verificadas si el usuario es básico");
 	}

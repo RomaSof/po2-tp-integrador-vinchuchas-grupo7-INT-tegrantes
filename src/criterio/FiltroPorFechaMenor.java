@@ -5,7 +5,7 @@ import java.util.Date;
 public class FiltroPorFechaMenor implements FiltroPorFecha {
 
 	@Override
-    public boolean comparar(Date fechaUltimaVotacion, Date fechaAFiltrar) {
+	 public boolean comparar(Date fechaUltimaVotacion, Date fechaAFiltrar) {
         return fechaUltimaVotacion.before(fechaAFiltrar);
     }
 }

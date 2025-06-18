@@ -3,53 +3,43 @@ package usuario;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import muestra.Muestra;
 import opinion.Opinion;
+import opinion.TipoOpinion;
+import ubicacion.Ubicacion;
 import usuarioEstado.EstadoUsuario;
 import usuarioEstado.EstadoUsuarioBasico;
 
 public class Usuario {
 
-	private String nombre;
+	private String nombre; 
 	private List<Muestra> muestrasEnviadas = new ArrayList<Muestra>();
 	private List<Opinion> opinionesEnviadas = new ArrayList<Opinion>();
 	private EstadoUsuario estadoUsuario = new EstadoUsuarioBasico();
 	
-	public List<Opinion> getOpiniones() {
-		return opinionesEnviadas;
+	//constructor
+	public Usuario(String nombre) {	
+		this.nombre = nombre;
 	}
 	
-	public EstadoUsuario getEstadoUsuario() {
-		return this.estadoUsuario;
+	//getters
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public List<Opinion> getOpiniones() {
+		return opinionesEnviadas;
 	}
 	
 	public List<Muestra> getMuestras(){
 		return muestrasEnviadas;
 	}
 	
-	public void addOpinion(Opinion opinion) {
-		opinionesEnviadas.add(opinion);
-	}
-	
-	public void addMuestra(Muestra muestra) {
-		muestrasEnviadas.add(muestra);
-	}
-	
-	public Usuario(String nombre) {	
-		this.nombre = nombre;
-	}
-	
-	public void actualizarEstado() {
-		this.estadoUsuario.actualizarEstado(this);
-	}
-	
-	public boolean esExperto() {
-		return estadoUsuario.esExperto();
-	}
-	public void setEstado(EstadoUsuario nuevoEstado) {
-		this.estadoUsuario = nuevoEstado;
+	public EstadoUsuario getEstadoUsuario() {
+		return this.estadoUsuario;
 	}
 	
 	public int getCantidadDeEnviosUltimos30Dias() {
@@ -77,7 +67,7 @@ public class Usuario {
         for (Opinion opinion : opinionesEnviadas) {
         	// Convertir Date a LocalDate
             LocalDate fechaOpinion = opinion.getFechaOpinion()
-                    .toInstant()
+                    .toInstant() 
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate();
                 
@@ -88,8 +78,47 @@ public class Usuario {
         }
         return cantidadDeRevisiones;
 	}
-
-	public String getNombre() {
-		return nombre;
- }
+	
+	//setters
+	public void setEstado(EstadoUsuario nuevoEstado) {
+		this.estadoUsuario = nuevoEstado;
+	}
+	
+	//methods
+	public void enviarMuestra(Ubicacion ubicacion, String imagen, TipoOpinion tipo) { //no sé a qué se le envia la muestra
+		LocalDate localDate = LocalDate.now();
+		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		
+		
+		Muestra muestra = new Muestra(this, date, ubicacion, imagen, tipo);
+		
+		this.addMuestra(muestra);
+	} 
+	
+	public void opinar(Muestra muestra, TipoOpinion tipo) {
+		LocalDate localDate = LocalDate.now();
+		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		Opinion opinion = new Opinion(this, tipo, date);
+		muestra.agregarOpinion(opinion);
+	}
+	
+	
+	protected void addOpinion(Opinion opinion) { 
+		opinionesEnviadas.add(opinion);
+	}
+	
+	protected void addMuestra(Muestra muestra) {
+		muestrasEnviadas.add(muestra);
+	}
+	
+	protected void actualizarEstado() {
+		this.estadoUsuario.actualizarEstado(this);
+	}
+	
+	public boolean esExperto() {
+		return estadoUsuario.esExperto();
+	}
+	
+	
+	
 }

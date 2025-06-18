@@ -1,7 +1,6 @@
 package opinion;
 import java.util.Date;
 
-import muestra.Muestra;
 import usuario.Usuario;
 
 
@@ -9,15 +8,10 @@ public class Opinion {
 	private Usuario usuario;
 	private TipoOpinion tipoOpinion;
 	private Date fechaOpinion;
-	//private Muestra muestra;
-	//public Muestra getMuestra() {
-	//	return muestra;
-	//}
 
 	private boolean esOpinionVerificada;
 	
-	//test en espa;ol
-	
+	//constructor
 	public Opinion(Usuario usuario, TipoOpinion tipoOpinion, Date fechaOpinion) {
 	    this.usuario = usuario;
 	    this.tipoOpinion = tipoOpinion;
@@ -25,14 +19,7 @@ public class Opinion {
 	    this.esOpinionVerificada = usuario.esExperto();
 	}
 	
-	
-	public void enviarOpinion(Muestra muestra) {
-	    if (!muestra.usuarioYaOpino(this.usuario)) {
-	        muestra.agregarOpinion(this);
-	        this.getUsuario().addOpinion(this);
-	    }
-	   }
-	
+	//getters
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
@@ -41,11 +28,14 @@ public class Opinion {
 		return this.tipoOpinion;
 	}
 	
+	public Date getFechaOpinion() {
+		return fechaOpinion;
+	}
+	
+	//methods
 	public boolean esOpinionVerificada() {
 		return this.esOpinionVerificada;
 	}
 	
-	public Date getFechaOpinion() {
-		return fechaOpinion;
-	}
+	
 }

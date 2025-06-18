@@ -1,11 +1,8 @@
 package criterio;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 import muestra.Muestra;
-import opinion.Opinion;
 
 public class CriterioFechaUltimaVotacion implements CriterioBusqueda{
 	private FiltroPorFecha filtroFecha;

@@ -1,6 +1,7 @@
 package criterio;
 
 import java.util.Date;
+
 import muestra.Muestra;
 
 public class CriterioFechaCreacion implements CriterioBusqueda {
