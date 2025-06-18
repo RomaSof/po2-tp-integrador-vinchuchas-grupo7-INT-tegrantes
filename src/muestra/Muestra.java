@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import avisoOrganizaciones.ObservadorMuestra;
 import ubicacion.Ubicacion;
 import usuario.Usuario;
 import opinion.*;
@@ -166,5 +167,10 @@ public class Muestra {
 				.anyMatch(tipoOp -> tipoOp.size() > 1); //indica si hay al menos 2 opiniones de que son del mismo tipo 
 	}
 	
-
+	//Implementacion del observer
+	//
+	public void notificarMuestra(ObservadorMuestra obsMuestra){
+		this.getEstadoMuestra().notify(this , obsMuestra);
+	}
+	
 }
