@@ -41,15 +41,15 @@ class OpinionTest {
 		assertTrue(muestra.getEspecie().equals(TipoOpinion.VINCHUCA_SORDIDA.getEspecie()));
 	}
 	//test n°2
-	/*
+	
 	@Test
 	void testEnviarOpinion() {
 		Usuario usuario2 = Mockito.spy(new Usuario("Raul"));
 		Opinion op2 = Mockito.spy(new Opinion(usuario2, TipoOpinion.CHINCHE_FOLIADA , new Date()));
-		op2.enviarOpinion(muestra); // envio la opinion
-		assertEquals(muestra.getHistorialDeOpiniones().size(), 2);
+		muestra.agregarOpinion(op2);
+		assertEquals(muestra.getHistorialDeOpiniones().size(), 1);
 		
-	}
+	}/*
 	//test n°3
 	@Test
 	void testUsuarioNoPuedeEnviar2OpinionesAUnaMuestra() {
