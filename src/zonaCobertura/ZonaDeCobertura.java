@@ -85,5 +85,9 @@ public class ZonaDeCobertura implements ObservableZona {
 		
 	}
 	
+	public boolean estaDentroDeLaZona(Muestra muestra) {
+	    double distancia = this.epicentro.distanciaA(muestra.getUbicacion());
+	    return distancia <= this.distanciaEnKm;
+	}
 
 }
