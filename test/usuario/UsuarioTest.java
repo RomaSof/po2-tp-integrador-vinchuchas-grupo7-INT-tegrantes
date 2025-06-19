@@ -6,15 +6,21 @@ import static org.mockito.Mockito.*;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import avisoOrganizaciones.ObservadorMuestra;
+import muestra.FabricaDeMuestras;
 import muestra.Muestra;
 import opinion.Opinion;
 import opinion.TipoOpinion;
+import organizacion.Organizacion;
 import ubicacion.Ubicacion;
 import usuarioEstado.EstadoUsuarioExperto;
+import zonaCobertura.ZonaDeCobertura;
 
 
 class UsuarioTest {
@@ -30,21 +36,29 @@ class UsuarioTest {
 	private LocalDate localDate;
 	private TipoOpinion vinchuca;
 	private Ubicacion ubicacion;
+	private ObservadorMuestra observador;
+	private FabricaDeMuestras fabrica ;
 
 	@BeforeEach
 	public void setup() {
+		// ObservadorMuestra
+		observador = new ObservadorMuestra();
+						 
+		// Creamos la fabrica de muestras (mock o real, según tu diseño)
+		fabrica = new FabricaDeMuestras(observador);
+				
 		localDate = LocalDate.now();
 		date = new Date();
 	    vinchuca = TipoOpinion.VINCHUCA_INFESTAN; 
-		usuario1 = new Usuario("Juan");
-		usuario2 = new Usuario("Pepe");
+		usuario1 = new Usuario("Juan", fabrica);
+		usuario2 = new Usuario("Pepe", fabrica);
 		ubicacion = mock(Ubicacion.class);
 		
 		//instancia de un mock espia de usuario llamado Jose(usuario basico)
-		usuario3 = Mockito.spy(new Usuario("Jose"));
+		usuario3 = Mockito.spy(new Usuario("Jose", fabrica));
 		
 		//instancia espia Verificado
-		usuario4 = Mockito.spy(new UsuarioVerificado("Alberto"));
+		usuario4 = Mockito.spy(new UsuarioVerificado("Alberto", fabrica));
 	    
 		opinion = new Opinion(usuario1, vinchuca, date);
 	   
@@ -137,7 +151,7 @@ class UsuarioTest {
 	@Test
 	void testOpinionFueraDePeriodo30Dias() {
 	    // Crear un usuario NUEVO para este test (evita contaminación del setup)
-	    Usuario usuarioTest = new Usuario("UsuarioTest");
+	    Usuario usuarioTest = new Usuario("UsuarioTest", fabrica);
 	    
 	    LocalDate fechaAntigua = LocalDate.now().minusDays(31);
 	    Date fechaOpinionAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -152,12 +166,12 @@ class UsuarioTest {
 	//test n°9
 	@Test
 	void testMuestraFueraDePeriodo30Dias() {
-	    Usuario usuarioTest = new Usuario("UsuarioMuestraTest");
+	    Usuario usuarioTest = new Usuario("UsuarioMuestraTest", fabrica);
 	    
 	    LocalDate fechaAntigua = LocalDate.now().minusDays(35);
 	    Date fechaMuestraAntigua = Date.from(fechaAntigua.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	    
-	    Muestra muestraAntigua = new Muestra(usuarioTest, fechaMuestraAntigua, ubicacion, "imagen_antigua",	 vinchuca);
+	    Muestra muestraAntigua = new Muestra(usuarioTest, fechaMuestraAntigua, ubicacion, "imagen_antigua",	 vinchuca, observador);
 	    usuarioTest.addMuestra(muestraAntigua);
 	    
 	    assertEquals(1, usuarioTest.getMuestras().size()); // Ahora pasará
@@ -167,7 +181,7 @@ class UsuarioTest {
 	@Test
 	void testOpinionVerificadaALahoraDeOpinarPeroDespuesElUsuarioPasaAEstadoBasico() {
 	    // 1. Configurar usuario como experto inicialmente
-	    Usuario usuarioExperto = new Usuario("Carlos");
+	    Usuario usuarioExperto = new Usuario("Carlos", fabrica);
 	    usuarioExperto.setEstado(new EstadoUsuarioExperto());
 	    assertTrue(usuarioExperto.esExperto());
 	    
@@ -192,4 +206,20 @@ class UsuarioTest {
 	    assertFalse(nuevaOpinion.esOpinionVerificada(),
 	        "Las nuevas opiniones no deberían ser verificadas si el usuario es básico");
 	}
+	
+	@Test
+	void testUsuarioObtieneObservadorMuestraDeLaFabricaDeMuestra() {
+	    // Asegurarse que el usuario tiene fábrica asignada
+	    assertNotNull(usuario1.getFabricaDeMuestra());
+
+	    // Obtener el observador desde la fábrica
+	    ObservadorMuestra obsFabrica = usuario1.getFabricaDeMuestra().getObservadorMuestra();
+
+	    // El observador que tenemos en el setup
+	    assertNotNull(observador);
+
+	    // Comprobar que el observador del usuario es el mismo que el que creamos en setup
+	    assertEquals(observador, obsFabrica);
+	}
+
 }

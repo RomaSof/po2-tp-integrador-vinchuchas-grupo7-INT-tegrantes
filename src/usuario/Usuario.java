@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import avisoOrganizaciones.ObservadorMuestra;
+import muestra.FabricaDeMuestras;
 import muestra.Muestra;
 import opinion.Opinion;
 import opinion.TipoOpinion;
@@ -19,10 +21,12 @@ public class Usuario {
 	private List<Muestra> muestrasEnviadas = new ArrayList<Muestra>();
 	private List<Opinion> opinionesEnviadas = new ArrayList<Opinion>();
 	private EstadoUsuario estadoUsuario = new EstadoUsuarioBasico();
+	private FabricaDeMuestras fabrica;
 	
 	//constructor
-	public Usuario(String nombre) {	
+	public Usuario(String nombre, FabricaDeMuestras fabrica) {	
 		this.nombre = nombre;
+		this.fabrica = fabrica;
 	}
 	
 	//getters
@@ -90,11 +94,10 @@ public class Usuario {
 		LocalDate localDate = LocalDate.now();
 		Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		
-		
-		Muestra muestra = new Muestra(this, date, ubicacion, imagen, tipo);
-		
+		// Se crea una nueva muestra usando una fábrica, que ya tiene preconfigurado el ObservadorMuestra
+		// El usuario simplemente usa la fabrica.crearMuestra(...) y se desentiende de los detalles internos.
+		Muestra muestra = this.getFabricaDeMuestra().crearMuestra(this, date, ubicacion, imagen, tipo);
 		this.addMuestra(muestra);
-		
 		return muestra;
 	} 
 	
@@ -125,6 +128,11 @@ public class Usuario {
 	
 	public boolean esExperto() {
 		return estadoUsuario.esExperto();
+	}
+	
+	
+	public FabricaDeMuestras getFabricaDeMuestra() {
+		return this.fabrica;
 	}
 	
 	
