@@ -13,13 +13,8 @@ public class EstadoUsuarioBasico implements EstadoUsuario{
 			usuario.setEstado(new EstadoUsuarioExperto());
 		}
 	}
-
 	public boolean verificarCambioDeEstado(Usuario usuario) {
-		if(usuario.getCantidadDeEnviosUltimos30Dias() > 10 && usuario.getCantidadDeRevisionesUltimos30Dias() > 20) {
-			return true;			
-		}else {
-			return false;
-		}
-	}
+		return(usuario.getCantidadDeEnviosUltimos30Dias() > 10 && usuario.getCantidadDeRevisionesUltimos30Dias() > 20);
 
+	}
 }

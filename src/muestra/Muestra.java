@@ -21,7 +21,7 @@ public class Muestra {
 	private List<Opinion> opiniones = new ArrayList<Opinion>();
 	
 	//constructor
-	public Muestra(Usuario user, Date date, Ubicacion ubicacion, String image, TipoOpinion opinioninicial) {
+	public Muestra(Usuario user, Date date, Ubicacion ubicacion, String image, TipoOpinion opinioninicial) { //observer
 		this.usuario = user;
 		this.fechaCreacion = date;
 		this.ubicacion = ubicacion; 

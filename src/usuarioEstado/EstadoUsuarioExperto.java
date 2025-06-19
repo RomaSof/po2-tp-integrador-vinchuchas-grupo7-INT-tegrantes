@@ -15,11 +15,7 @@ public class EstadoUsuarioExperto implements EstadoUsuario{
 	}
 
 	public boolean verificarCambioDeEstado(Usuario usuario) {
-		if(!(usuario.getCantidadDeEnviosUltimos30Dias() > 10 && usuario.getCantidadDeRevisionesUltimos30Dias() > 20)) {
-			return true;			
-		}else {
-			return false;
-		}
+		return!((usuario.getCantidadDeEnviosUltimos30Dias() > 10 && usuario.getCantidadDeRevisionesUltimos30Dias() > 20));
 	}
 	
 }
