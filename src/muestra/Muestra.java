@@ -19,14 +19,18 @@ public class Muestra {
 	private TipoOpinion opinionInicial;
 	private EstadoVerificacionMuestra estado = new EstadoVerificacionMuestra();
 	private List<Opinion> opiniones = new ArrayList<Opinion>();
+	private ObservadorMuestra observadorMuestra;
 	
 	//constructor
-	public Muestra(Usuario user, Date date, Ubicacion ubicacion, String image, TipoOpinion opinioninicial) {
+	public Muestra(Usuario user, Date date, Ubicacion ubicacion, String image, TipoOpinion opinioninicial, ObservadorMuestra observadorMuestra) {
 		this.usuario = user;
 		this.fechaCreacion = date;
 		this.ubicacion = ubicacion; 
 		this.imagenMuestra = image;
 		this.opinionInicial = opinioninicial;
+		this.observadorMuestra = observadorMuestra; // Guarda la referencia al ObservadorMuestra encargado de notificar las zonas sobre nuevas muestras
+	    this.notificarMuestra();
+
 	}
 	
 	//getters
@@ -167,10 +171,16 @@ public class Muestra {
 				.anyMatch(tipoOp -> tipoOp.size() > 1); //indica si hay al menos 2 opiniones de que son del mismo tipo 
 	}
 	
+	
+	
 	//Implementacion del observer
 	//
-	public void notificarMuestra(ObservadorMuestra obsMuestra){
-		this.getEstadoMuestra().notify(this , obsMuestra);
+	public void notificarMuestra(){
+		this.getEstadoMuestra().notify(this, this.getObservadorMuestra());
+	}
+	
+	public ObservadorMuestra getObservadorMuestra() {
+		return this.observadorMuestra;
 	}
 	
 }
