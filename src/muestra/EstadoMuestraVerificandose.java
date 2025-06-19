@@ -17,6 +17,7 @@ public class EstadoMuestraVerificandose extends EstadoVerificacionMuestra{
 	protected void cambiarDeEstadoSiPosible(Muestra muestra) {
 		if(muestra.coincidenExpertos()) {
 			muestra.setEstadoMuestra(new EstadoMuestraVerificada());
+			muestra.notificarMuestra(); // aquí notificá que la muestra cambió a verificada
 		}
 	}
 
