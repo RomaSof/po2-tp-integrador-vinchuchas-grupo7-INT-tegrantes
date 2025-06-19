@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import avisoOrganizaciones.ObservadorMuestra;
 import opinion.Opinion;
 import opinion.TipoOpinion;
 import ubicacion.Ubicacion;
@@ -52,6 +53,9 @@ class MuestraTestCase {
 	//date 
 	LocalDate localDate;
 	Date date;
+	
+	// ObservadorMuestra
+	ObservadorMuestra observadorMock;
 	
 	@BeforeEach
 	public void setUp() {
@@ -112,9 +116,12 @@ class MuestraTestCase {
 		//date
 		localDate = LocalDate.now();
 	    date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	    
+	    // ObservadorMuestra
+	    observadorMock = mock(ObservadorMuestra.class);
 		
 		//sujeto de prueba muestra
-		muestra = new Muestra(user, date, ubicacion, "image Vinchukis", TipoOpinion.IMAGEN_POCO_CLARA);
+		muestra = new Muestra(user, date, ubicacion, "image Vinchukis", TipoOpinion.IMAGEN_POCO_CLARA, observadorMock);
 	}
 
 	//GETTERS TESTS
@@ -376,5 +383,29 @@ class MuestraTestCase {
 		muestra.agregarOpinion(op3); //no cambia el tamaño de opiniones porque no se agregan más al estar verificada
 		assertEquals(5, muestra.getHistorialDeOpiniones().size());
 	}
-  
+	
+	
+	// Notificaciones de creacion de muestras y muestras verificadas
+	
+	@Test
+	void testNotificaAlObservadorAlCrearLaMuestra() {
+	    verify(observadorMock, times(1)).notificarMuestra(muestra); // notificación creación
+	}
+	
+	
+	@Test
+	void testNotificaAlObservadorCuandoLaMuestraEsVerificada() {
+	    // Verificar notificación de creación
+	    verify(observadorMock, times(1)).notificarMuestra(muestra);
+
+	    // Agregar dos opiniones expertas con el mismo tipo de opinion para que se verifique la muestra.
+	    muestra.agregarOpinion(op5);
+	    muestra.agregarOpinion(op6);
+
+	    // verificar que coinciden expertos (debe ser true para cambiar estado)
+	    assertTrue(muestra.coincidenExpertos(), "Deben coincidir opiniones expertas para cambio de estado");
+
+	    // Verificar que ahora se notificó otra vez al observador pero con una muestra verificada
+	    verify(observadorMock, times(1)).notificarMuestraValidada(muestra);
+	}
 }

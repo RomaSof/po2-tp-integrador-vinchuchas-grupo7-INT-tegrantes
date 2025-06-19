@@ -29,7 +29,7 @@ public class Muestra {
 		this.imagenMuestra = image;
 		this.opinionInicial = opinioninicial;
 		this.observadorMuestra = observadorMuestra; // Guarda la referencia al ObservadorMuestra encargado de notificar las zonas sobre nuevas muestras
-	    this.notificarMuestra();
+	    this.notificarMuestra(); // Notifica una nueva muestra, como su estado inicial es EstadoVerificacionMuestra entonces realiza una notificacón de nueva muestra.
 
 	}
 	
