@@ -51,15 +51,15 @@ class observadorMuestraTest {
         obsMuestra.addZonaDeCobertura(zona3);
         
         zona1.agregarObservador(orga1);
-        zona3.agregarObservador(orga1);
         zona3.agregarObservador(orga3);
-
+        
+        // Agrego el ObservadorMuestra en las Muestras
         muestraDentroZona1 = spy(new Muestra(usuarioMock, new Date(), 
-            new Ubicacion(-34.6083, -58.3712), "foto1.jpg", TipoOpinion.NO_DEFINIDA));
+            new Ubicacion(-34.6083, -58.3712), "foto1.jpg", TipoOpinion.NO_DEFINIDA, obsMuestra));
         muestraDentroZona2 = spy(new Muestra(usuarioMock, new Date(),
-            new Ubicacion(-34.8591, -58.0137), "foto3.jpg", TipoOpinion.NO_DEFINIDA));
+            new Ubicacion(-34.8591, -58.0137), "foto3.jpg", TipoOpinion.NO_DEFINIDA, obsMuestra));
         muestraDentroZona3 = spy(new Muestra(usuarioMock, new Date(),
-            new Ubicacion(-31.4208, -64.4992), "foto5.jpg", TipoOpinion.NO_DEFINIDA));
+            new Ubicacion(-31.4208, -64.4992), "foto5.jpg", TipoOpinion.NO_DEFINIDA, obsMuestra));
     }
 
     @Test
@@ -82,7 +82,7 @@ class observadorMuestraTest {
     }
     
     @Test
-    void testEliminarUnaZonaDeCovertura() {
+    void testEliminarUnaZonaDeCobertura() {
         assertTrue(obsMuestra.getZonasDeCoberturasSubscritas().contains(zona3));
         obsMuestra.eliminarZonaDeCobertura(zona3);
         assertFalse(obsMuestra.getZonasDeCoberturasSubscritas().contains(zona3));
@@ -93,10 +93,11 @@ class observadorMuestraTest {
         ZonaDeCobertura zonaMock = mock(ZonaDeCobertura.class);
         when(zonaMock.estaDentroDeLaZona(any())).thenReturn(true);
         
-        ObservadorMuestra obsLocal = new ObservadorMuestra();
-        obsLocal.addZonaDeCobertura(zonaMock);
+        // Agrego una nueva zona que quiere recibir notificaciones de muestras.
+        obsMuestra.addZonaDeCobertura(zonaMock);
         
-        muestraDentroZona1.notificarMuestra(obsLocal);
+        // notifico a todas las muestras de las zonas (muestras dentro del rango de la zona, pero ya se supone que esta dentro)
+        muestraDentroZona1.notificarMuestra();
         
         verify(zonaMock).notificarNuevaMuestra(muestraDentroZona1);
     }
@@ -106,33 +107,37 @@ class observadorMuestraTest {
         ZonaDeCobertura zonaMock = mock(ZonaDeCobertura.class);
         when(zonaMock.estaDentroDeLaZona(any())).thenReturn(true);
         
-        ObservadorMuestra obsLocal = new ObservadorMuestra();
-        obsLocal.addZonaDeCobertura(zonaMock);
+        obsMuestra.addZonaDeCobertura(zonaMock);
         
-        Muestra muestraValidada = spy(new Muestra(usuarioMock, new Date(),
-            new Ubicacion(-34.6083, -58.3712), "foto_valida.jpg", TipoOpinion.NO_DEFINIDA));
-        
+        Muestra muestraValidada = spy(new Muestra(
+            usuarioMock, 
+            new Date(),
+            new Ubicacion(-34.6083, -58.3712), 
+            "foto_valida.jpg", 
+            TipoOpinion.NO_DEFINIDA,
+            obsMuestra
+        ));
+
         EstadoMuestraVerificada estadoVerificado = new EstadoMuestraVerificada();
         doReturn(estadoVerificado).when(muestraValidada).getEstadoMuestra();
-        
-        muestraValidada.notificarMuestra(obsLocal);
-        
+
+        muestraValidada.notificarMuestra();
+
         verify(zonaMock).notificarMuestraValida(muestraValidada);
-        verify(zonaMock, never()).notificarNuevaMuestra(any());
     }
+
     
     @Test
     void testMuestraNoNotificaCuandoEstaValidandose() {
         ZonaDeCobertura zonaMock = mock(ZonaDeCobertura.class);
         when(zonaMock.estaDentroDeLaZona(any())).thenReturn(true);
         
-        ObservadorMuestra obsLocal = new ObservadorMuestra();
-        obsLocal.addZonaDeCobertura(zonaMock);
+        obsMuestra.addZonaDeCobertura(zonaMock);
         
         EstadoMuestraVerificandose estadoVerificandose = new EstadoMuestraVerificandose();
         doReturn(estadoVerificandose).when(muestraDentroZona1).getEstadoMuestra();
         
-        muestraDentroZona1.notificarMuestra(obsLocal);
+        muestraDentroZona1.notificarMuestra();
         
         verify(zonaMock, never()).notificarNuevaMuestra(any());
         verify(zonaMock, never()).notificarMuestraValida(any());
