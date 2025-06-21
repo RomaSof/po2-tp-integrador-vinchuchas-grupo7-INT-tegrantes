@@ -19,6 +19,7 @@ public class Muestra {
 	private TipoOpinion opinionInicial;
 	private EstadoVerificacionMuestra estado = new EstadoVerificacionMuestra();
 	private List<Opinion> opiniones = new ArrayList<Opinion>();
+	private ObservadorMuestra observador = null;
 	
 	//constructor
 	public Muestra(Usuario user, Date date, Ubicacion ubicacion, String image, TipoOpinion opinioninicial) { //observer
@@ -169,8 +170,15 @@ public class Muestra {
 	
 	//Implementacion del observer
 	//
-	public void notificarMuestra(ObservadorMuestra obsMuestra){
-		this.getEstadoMuestra().notify(this , obsMuestra);
+	public void notificarMuestra(){
+		this.getEstadoMuestra().notify(this , this.getObservador());
 	}
 	
+	public ObservadorMuestra getObservador() {
+		return this.observador;
+	}
+	
+	public void setObservador(ObservadorMuestra nuevoObservador) {
+		this.observador = nuevoObservador;
+	}
 }
