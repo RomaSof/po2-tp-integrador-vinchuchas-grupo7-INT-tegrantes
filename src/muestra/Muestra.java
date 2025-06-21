@@ -13,7 +13,7 @@ import opinion.*;
 
 public class Muestra {
     private Usuario usuario;
-	private Date fechaCreacion;
+	private Date fechaCreacion; 
 	private Ubicacion ubicacion;
 	private String imagenMuestra;
 	private TipoOpinion opinionInicial;
@@ -22,7 +22,7 @@ public class Muestra {
 	private ObservadorMuestra observador = null;
 	
 	//constructor
-	public Muestra(Usuario user, Date date, Ubicacion ubicacion, String image, TipoOpinion opinioninicial) { //observer
+	public Muestra(Usuario user, Date date, Ubicacion ubicacion, String image, TipoOpinion opinioninicial) { 
 		this.usuario = user;
 		this.fechaCreacion = date;
 		this.ubicacion = ubicacion; 
@@ -108,11 +108,10 @@ public class Muestra {
 					
 	}
 	
-	//devuelve la fehca de la ultima votacion sobre la muestra, si no hay ninguna, devuelve la fecha de creacion de la muestra
+	//devuelve la fecha de la ultima votacion sobre la muestra, si no hay ninguna, devuelve la fecha de creacion de la muestra
 	public Date getFechaUltimaVotacion() {
 
-		//List<Opinion> opiniones = this.getHistorialDeOpiniones();
-		Date fechaMasReciente = this.fechaCreacion; //opiniones.get(0).getFechaOpinion();
+		Date fechaMasReciente = this.fechaCreacion; 
 	    
 	    for (Opinion opinion : opiniones) {
 	    	Date fechaActual = opinion.getFechaOpinion();
@@ -120,12 +119,20 @@ public class Muestra {
 	            fechaMasReciente = fechaActual; 
 	        }
 	    }
-	    return fechaMasReciente;  //this.opiniones.isEmpty() ? this.fechaCreacion : fechaMasReciente;
+	    return fechaMasReciente;  
+	}
+	
+	public ObservadorMuestra getObservador() {
+		return this.observador;
 	}
 	
 	//setters
 	protected void setEstadoMuestra(EstadoVerificacionMuestra estado) {
 		this.estado = estado;
+	}
+	
+	public void setObservador(ObservadorMuestra nuevoObservador) {
+		this.observador = nuevoObservador;
 	}
 	
 	
@@ -168,17 +175,12 @@ public class Muestra {
 				.anyMatch(tipoOp -> tipoOp.size() > 1); //indica si hay al menos 2 opiniones de que son del mismo tipo 
 	}
 	
-	//Implementacion del observer
-	//
 	public void notificarMuestra(){
-		this.getEstadoMuestra().notify(this , this.getObservador());
+		this.observador.notificarMuestra(this);
 	}
 	
-	public ObservadorMuestra getObservador() {
-		return this.observador;
+	protected void notificarMuestraValidada() {
+		this.observador.notificarMuestraValidada(this);
 	}
-	
-	public void setObservador(ObservadorMuestra nuevoObservador) {
-		this.observador = nuevoObservador;
-	}
+
 }
