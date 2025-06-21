@@ -30,4 +30,8 @@ public class CriterioCombinado implements CriterioBusqueda{
 	public boolean cumple(Muestra muestra) {
 		return this.getOperadorLogico().comparar(muestra, this.getCriteriosDeBusqueda());
 	}
+
+	public void setOperador(OperadorLogico otroOperador) {
+		this.operadorLogico = otroOperador;
+	}
 }
