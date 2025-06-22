@@ -1,5 +1,4 @@
 package muestra;
-import avisoOrganizaciones.ObservadorMuestra;
 import opinion.*;
 public class EstadoVerificacionMuestra {
 	
@@ -12,15 +11,11 @@ public class EstadoVerificacionMuestra {
 	}
 
 	public TipoOpinion getResultadoActual(Muestra muestra) {
-		return muestra.getOpinionMasPopular();
+		return muestra.getOpinionMasPopular(); 
 	}
 	
 	public boolean esVerificada() { 
 		return false;
-	}
-	
-	public void notify(Muestra muestra, ObservadorMuestra obsMuestra) {
-		obsMuestra.notificarMuestra(muestra);
 	}
 	
 }

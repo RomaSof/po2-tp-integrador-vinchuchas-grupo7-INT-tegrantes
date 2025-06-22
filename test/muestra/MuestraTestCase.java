@@ -18,7 +18,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
+import avisoOrganizaciones.ObservadorMuestra;
 import opinion.Opinion;
 import opinion.TipoOpinion;
 import ubicacion.Ubicacion;
@@ -52,6 +54,9 @@ class MuestraTestCase {
 	//date 
 	LocalDate localDate;
 	Date date;
+	
+	//observador
+	public ObservadorMuestra obs;
 	
 	@BeforeEach
 	public void setUp() {
@@ -112,9 +117,14 @@ class MuestraTestCase {
 		//date
 		localDate = LocalDate.now();
 	    date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	    
+	    //observador
+	    //obs = mock(ObservadorMuestra.class);
+	    obs = Mockito.spy(new ObservadorMuestra());
 		
 		//sujeto de prueba muestra
 		muestra = new Muestra(user, date, ubicacion, "image Vinchukis", TipoOpinion.IMAGEN_POCO_CLARA);
+		muestra.setObservador(obs);
 	}
 
 	//GETTERS TESTS
@@ -181,6 +191,11 @@ class MuestraTestCase {
 		assertEquals(opsExpertasEsperadas, muestra.getOpinionesDeExpertos());
 	}
 	
+	@Test
+	void getObservadorTest() {
+		assertEquals(obs, muestra.getObservador());
+	}
+	 
 	@Test
 	void getOpinionQueCoincidenExpertosTest() {
 		muestra.agregarOpinion(op1); //opinion común -> TipoOpinion.VINCHUCA_SORDIDA
@@ -281,7 +296,7 @@ class MuestraTestCase {
 	
 	//TEST COMPORTAMIENTO DE LOS ESTADOS DE LA MUESTRA
 	@Test
-	public void TestEstadoVerificacionMuestra() {
+	void TestEstadoVerificacionMuestra() {
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
 		
 		//agrega opiniones de usuarios comunes a la mustra
@@ -308,7 +323,7 @@ class MuestraTestCase {
 	}
 	
 	@Test
-	public void TestEstadoMuestraVerificandose() {
+	void TestEstadoMuestraVerificandose() {
 		assertTrue(muestra.getEstadoMuestra() instanceof EstadoVerificacionMuestra);
 		
 		//agrega opiniones de usuarios comunes porque el estado inicial lo permite
@@ -375,6 +390,30 @@ class MuestraTestCase {
 		
 		muestra.agregarOpinion(op3); //no cambia el tamaño de opiniones porque no se agregan más al estar verificada
 		assertEquals(5, muestra.getHistorialDeOpiniones().size());
+	} 
+	
+	@Test
+	void notificarMuestraTest() {
+		muestra.notificarMuestra();
+		
+		verify(obs,times(1)).notificarMuestra(muestra);
+	}
+	
+	@Test
+	void notificarMuestraValidadaTest() {
+		//se inicia con una muestra con estado básico, no es verificada ni esta en verificacion
+		
+		assertFalse(muestra.esVerificada());
+		
+		//se agregan 2 opiniones de expertos que coinciden por lo que pasa a ser una muestra derificada
+		
+		muestra.agregarOpinion(op5); //opinion de experto -> TipoOpinion.CHINCHE_FOLIADA
+		muestra.agregarOpinion(op6); //opinion de experto -> TipoOpinion.CHINCHE_FOLIADA
+		
+		assertTrue(muestra.esVerificada());
+		
+		//entonces al ser verificada le avisa al observer
+		verify(obs,times(1)).notificarMuestraValidada(muestra);
 	}
   
 }
