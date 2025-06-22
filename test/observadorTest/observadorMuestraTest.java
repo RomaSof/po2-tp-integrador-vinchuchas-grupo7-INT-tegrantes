@@ -13,6 +13,7 @@ import org.mockito.Spy;
 
 import avisoOrganizaciones.ObservadorMuestra;
 import muestra.*;
+import opinion.Opinion;
 import opinion.TipoOpinion;
 import organizacion.FuncionalidadExterna;
 import organizacion.Organizacion;
@@ -25,6 +26,10 @@ class observadorMuestraTest {
 
     private ObservadorMuestra obsMuestra;
     private FuncionalidadExterna funcionalidadMock;
+    
+    private Opinion opinionExperta1;
+    private Opinion opinionExperta2;
+
     
     @Spy private Muestra muestraDentroZona1;
     @Spy private Muestra muestraDentroZona2;
@@ -56,10 +61,28 @@ class observadorMuestraTest {
 
         muestraDentroZona1 = spy(new Muestra(usuarioMock, new Date(), 
             new Ubicacion(-34.6083, -58.3712), "foto1.jpg", TipoOpinion.NO_DEFINIDA));
-        muestraDentroZona2 = spy(new Muestra(usuarioMock, new Date(),
-            new Ubicacion(-34.8591, -58.0137), "foto3.jpg", TipoOpinion.NO_DEFINIDA));
-        muestraDentroZona3 = spy(new Muestra(usuarioMock, new Date(),
-            new Ubicacion(-31.4208, -64.4992), "foto5.jpg", TipoOpinion.NO_DEFINIDA));
+        
+        
+        // Para verificar las zonas con muestras validadas
+        
+        opinionExperta1 = mock(Opinion.class);
+        opinionExperta2 = mock(Opinion.class);
+
+        Usuario expertoA = mock(Usuario.class);
+        Usuario expertoB = mock(Usuario.class);
+
+        when(expertoA.esExperto()).thenReturn(true);
+        when(expertoB.esExperto()).thenReturn(true);
+
+        when(opinionExperta1.getUsuario()).thenReturn(expertoA);
+        when(opinionExperta2.getUsuario()).thenReturn(expertoB);
+
+        when(opinionExperta1.getTipoEspecie()).thenReturn(TipoOpinion.VINCHUCA_SORDIDA);
+        when(opinionExperta2.getTipoEspecie()).thenReturn(TipoOpinion.VINCHUCA_SORDIDA);
+
+        when(opinionExperta1.esOpinionVerificada()).thenReturn(true);
+        when(opinionExperta2.esOpinionVerificada()).thenReturn(true);
+
     }
 
     @Test
@@ -111,18 +134,16 @@ class observadorMuestraTest {
         ObservadorMuestra obsLocal = new ObservadorMuestra();
         obsLocal.addZonaDeCobertura(zonaMock);
         
-        Muestra muestraValidada = spy(new Muestra(usuarioMock, new Date(),
+        Muestra muestraPrueba = spy(new Muestra(usuarioMock, new Date(),
             new Ubicacion(-34.6083, -58.3712), "foto_valida.jpg", TipoOpinion.NO_DEFINIDA));
         
-        EstadoMuestraVerificada estadoVerificado = new EstadoMuestraVerificada();
-        doReturn(estadoVerificado).when(muestraValidada).getEstadoMuestra();
-        
         // Una muestra tiene un ObservadorMuestra inicialmente null
-        muestraValidada.setObservador(obsLocal); // <-- Se setea el observador necesario para que la muestra pueda notificar su estado
-
-        muestraValidada.notificarMuestra();
+        muestraPrueba.setObservador(obsLocal); // <-- Se setea el observador necesario para que la muestra pueda notificar su estado
         
-        verify(zonaMock).notificarMuestraValida(muestraValidada);
+        muestraPrueba.agregarOpinion(opinionExperta1);
+        muestraPrueba.agregarOpinion(opinionExperta2); // <---- al cambiar de estado a Verificado notifica la muestra como validada
+        
+        verify(zonaMock).notificarMuestraValida(muestraPrueba);
         verify(zonaMock, never()).notificarNuevaMuestra(any());
     }
     
@@ -140,7 +161,7 @@ class observadorMuestraTest {
         // Se asigna el observador a la muestra (necesario para que pueda notificar)
         muestraDentroZona1.setObservador(obsLocal); 
 
-        muestraDentroZona1.notificarMuestra();
+        muestraDentroZona1.agregarOpinion(opinionExperta1); // <-- Con la opinion de un experto cambia su estado a Verificandose
         
         verify(zonaMock, never()).notificarNuevaMuestra(any());
         verify(zonaMock, never()).notificarMuestraValida(any());
