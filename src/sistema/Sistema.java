@@ -95,5 +95,11 @@ public class Sistema {
 	public void setCriterioDeBusqueda(CriterioBusqueda nuevoCriterio) {
 	    this.getBuscador().setCriterioBusqueda(nuevoCriterio);
 	}
-
+	
+	public void actualizarEstadoUsuario(Usuario usuario) {
+		if (this.getUsuariosEnSistema().contains(usuario)) {
+	    usuario.actualizarEstado(this.getMuestrasEnSistema());
+		}
+	}
+	
 }
