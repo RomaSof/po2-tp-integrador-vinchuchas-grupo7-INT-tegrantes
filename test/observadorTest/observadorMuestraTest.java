@@ -96,7 +96,9 @@ class observadorMuestraTest {
         ObservadorMuestra obsLocal = new ObservadorMuestra();
         obsLocal.addZonaDeCobertura(zonaMock);
         
-        muestraDentroZona1.notificarMuestra(obsLocal);
+        muestraDentroZona1.setObservador(obsLocal); // <-- Agregado para que Muestra tenga un ObservadorMuestra (inicialmente es null)
+
+        muestraDentroZona1.notificarMuestra();
         
         verify(zonaMock).notificarNuevaMuestra(muestraDentroZona1);
     }
@@ -115,7 +117,10 @@ class observadorMuestraTest {
         EstadoMuestraVerificada estadoVerificado = new EstadoMuestraVerificada();
         doReturn(estadoVerificado).when(muestraValidada).getEstadoMuestra();
         
-        muestraValidada.notificarMuestra(obsLocal);
+        // Una muestra tiene un ObservadorMuestra inicialmente null
+        muestraValidada.setObservador(obsLocal); // <-- Se setea el observador necesario para que la muestra pueda notificar su estado
+
+        muestraValidada.notificarMuestra();
         
         verify(zonaMock).notificarMuestraValida(muestraValidada);
         verify(zonaMock, never()).notificarNuevaMuestra(any());
@@ -132,7 +137,10 @@ class observadorMuestraTest {
         EstadoMuestraVerificandose estadoVerificandose = new EstadoMuestraVerificandose();
         doReturn(estadoVerificandose).when(muestraDentroZona1).getEstadoMuestra();
         
-        muestraDentroZona1.notificarMuestra(obsLocal);
+        // Se asigna el observador a la muestra (necesario para que pueda notificar)
+        muestraDentroZona1.setObservador(obsLocal); 
+
+        muestraDentroZona1.notificarMuestra();
         
         verify(zonaMock, never()).notificarNuevaMuestra(any());
         verify(zonaMock, never()).notificarMuestraValida(any());
