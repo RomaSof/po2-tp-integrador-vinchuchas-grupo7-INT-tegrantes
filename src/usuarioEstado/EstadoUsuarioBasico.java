@@ -1,6 +1,9 @@
 package usuarioEstado;
 
-import usuario.Usuario;
+import java.util.List;
+
+import muestra.Muestra;
+import usuario.*;
 
 public class EstadoUsuarioBasico implements EstadoUsuario{
 
@@ -8,13 +11,13 @@ public class EstadoUsuarioBasico implements EstadoUsuario{
 		return false;
 	}
 
-	public void actualizarEstado(Usuario usuario) {
-		if(this.verificarCambioDeEstado(usuario)) {
+	public void actualizarEstado(Usuario usuario , List<Muestra> muestrasEnSistema) {
+		if(this.verificarCambioDeEstado(usuario , muestrasEnSistema)) {
 			usuario.setEstado(new EstadoUsuarioExperto());
 		}
 	}
-	public boolean verificarCambioDeEstado(Usuario usuario) {
-		return(usuario.getCantidadDeEnviosUltimos30Dias() > 10 && usuario.getCantidadDeRevisionesUltimos30Dias() > 20);
+	public boolean verificarCambioDeEstado(Usuario usuario , List<Muestra> muestrasEnSistema) {
+		return(usuario.getCantidadDeEnviosUltimos30Dias(muestrasEnSistema) > 10 && usuario.getCantidadDeRevisionesUltimos30Dias(muestrasEnSistema) > 20);
 
 	}
 }
