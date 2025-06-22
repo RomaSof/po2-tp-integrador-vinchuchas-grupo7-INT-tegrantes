@@ -11,6 +11,7 @@ import criterio.BuscadorMuestra;
 import muestra.Muestra;
 import organizacion.Organizacion;
 import usuario.Usuario;
+import usuarioEstado.EstadoUsuarioExperto;
 import zonaCobertura.ZonaDeCobertura;
 
 class SistemaTest {
@@ -82,6 +83,30 @@ class SistemaTest {
         // No debe agregar dos veces
         sistema.agregarZona(zona);
         assertEquals(1, sistema.getZonasEnSistema().size());
+    }
+    
+    @Test
+    void testActualizarEstadoUsuarioEnSistema() {
+        // 1. Crear instancia real del sistema (o mock parcial)
+        Sistema sistema = new Sistema(mock(ObservadorMuestra.class), mock(BuscadorMuestra.class));
+        
+        // 2. Configurar spy del usuario
+        Usuario usuario = spy(new Usuario("Juan Test"));
+        
+        // 3. Configurar comportamiento del spy
+        doReturn(50).when(usuario).getCantidadDeEnviosUltimos30Dias(any());
+        doReturn(70).when(usuario).getCantidadDeRevisionesUltimos30Dias(any());
+        
+        // 4. Registrar usuario en el sistema
+        sistema.registrarUsuario(usuario);
+        
+        // 5. Ejecutar
+        sistema.actualizarEstadoUsuario(usuario);
+        
+        // 6. Verificaciones
+        verify(usuario).actualizarEstado(sistema.getMuestrasEnSistema());
+        verify(usuario).setEstado(any(EstadoUsuarioExperto.class));
+        assertTrue(usuario.esExperto());
     }
 
 }
