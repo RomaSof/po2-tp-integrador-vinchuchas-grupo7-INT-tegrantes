@@ -1,4 +1,4 @@
-package observadorTest;
+package avisoOrganizaciones;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
