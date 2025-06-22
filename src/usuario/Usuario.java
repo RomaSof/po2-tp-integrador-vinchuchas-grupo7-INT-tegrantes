@@ -36,7 +36,6 @@ public class Usuario {
         int cantidadDeEnvios = 0;
         
         for (Muestra muestra : muestrasEnSistema) {
-            // Asumiendo que Muestra tiene un método getUsuarioEnviador() y getFechaEnvio()
             if (muestra.getRecolectorMuestra().equals(this) && 
                 muestra.getFechaCreacion().after(fechaLimite)) {
                 cantidadDeEnvios++;
@@ -54,7 +53,6 @@ public class Usuario {
         int cantidadDeRevisiones = 0;
         
         for (Muestra muestra : muestrasEnSistema) {
-            // Asumiendo que Muestra tiene un método getOpiniones()
             for (Opinion opinion : muestra.getHistorialDeOpiniones()) {
                 if (opinion.getUsuario().equals(this) && 
                     opinion.getFechaOpinion().after(fechaLimite)) {
