@@ -15,7 +15,7 @@ public class Opinion {
 	public Opinion(Usuario usuario, TipoOpinion tipoOpinion, Date fechaOpinion) {
 	    this.usuario = usuario;
 	    this.tipoOpinion = tipoOpinion;
-	    this.fechaOpinion = fechaOpinion; // Usa la fecha proporcionada
+	    this.fechaOpinion = fechaOpinion; 
 	    this.esOpinionVerificada = usuario.esExperto();
 	}
 	
@@ -23,7 +23,7 @@ public class Opinion {
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
-	
+	 
 	public TipoOpinion getTipoEspecie() {
 		return this.tipoOpinion;
 	}
