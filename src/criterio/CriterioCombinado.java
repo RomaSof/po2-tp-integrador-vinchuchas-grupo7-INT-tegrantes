@@ -11,7 +11,7 @@ public class CriterioCombinado implements CriterioBusqueda{
 	
 	public CriterioCombinado(List<CriterioBusqueda> criteriosDeBusqueda, OperadorLogico operadorLogico) {
 		this.operadorLogico = operadorLogico;
-		this.criteriosDeBusqueda =  new ArrayList<>(criteriosDeBusqueda); // Solucionado para que funcione el agregarCriterio(...) en CriterioCombinadoTest con el List.of(...)
+		this.criteriosDeBusqueda =  new ArrayList<>(criteriosDeBusqueda);
 	}
 	
 	public List<CriterioBusqueda> getCriteriosDeBusqueda(){
