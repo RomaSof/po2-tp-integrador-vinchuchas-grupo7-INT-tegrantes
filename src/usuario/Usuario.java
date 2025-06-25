@@ -26,7 +26,7 @@ public class Usuario {
 	public EstadoUsuario getEstadoUsuario() {
 		return this.estadoUsuario;
 	}
-	   // Métodos refactorizados que reciben el sistema
+
     public int getCantidadDeEnviosUltimos30Dias(List<Muestra> muestrasEnSistema) {
         // Calcular la fecha límite (30 días atrás)
         Date fechaActual = new Date();
@@ -67,14 +67,6 @@ public class Usuario {
 	public void setEstado(EstadoUsuario nuevoEstado) {
 		this.estadoUsuario = nuevoEstado;
 	}
-	
-	/*
-	public void actualizarEstado() {
-		this.estadoUsuario.actualizarEstado(this);
-	}
-	*/
-	
-	//ahora actualizarEstado tambien depende de la cantidad de muestras
 	
     public void actualizarEstado(List<Muestra> muestrasEnSistema) {
         this.estadoUsuario.actualizarEstado(this, muestrasEnSistema);
