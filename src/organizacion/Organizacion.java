@@ -50,6 +50,15 @@ public class Organizacion implements ObservadorZona{
 	}
 	
 	//setters
+	
+	/*
+	 * las funcionalidades externas son cómo la organización configura responder a las diferentes alertas dentro de una zona de covertura 
+	 * a la que esten registrados para saber avisos.
+	 * Hay una para los avisos de que se registraron muestras nuevas y otro para los avisos que se validó alguna muestra.
+	 * a lo largo de la vida de la organización estas funcionalidades puede cambiar, y pueden ser diferentes o iguales para los
+	 * diferentes tipos de avisos
+	 * */
+	
 	public void setFuncionalidadExternaCarga(FuncionalidadExterna newFCarga) {
 		this.fCargaNuevaMuestra = newFCarga;
 	}
